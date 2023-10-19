@@ -6,17 +6,14 @@ export class Roles{
     seleccion?: boolean;
 }
 
-export class Usuario{
 
-    id:number;
-    dni:string;
-    nombres:string;
-    apellidos: string;
-    correo:string; 
-    contrasena:string;
-    estado:string;
-    sexo:string;
-    roles: Roles[]
-
-}
-
+export class Usuario {
+  
+    id: number;
+    nombreUsuario: string;
+    correoElectronico: string;
+    contrasena: string;
+    tipoUsuario: string;
+    activo: boolean;
+  }
+  

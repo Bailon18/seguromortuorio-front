@@ -39,7 +39,7 @@ export class SessionService {
   }
 
   public getUsuarioNombre(): string | null {
-    return sessionStorage.getItem(ROL_NOMBRE);
+    return sessionStorage.getItem(USUARIO_NOMBRE);
   }
 
 

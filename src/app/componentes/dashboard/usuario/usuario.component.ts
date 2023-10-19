@@ -20,10 +20,12 @@ export class UsuarioComponent implements AfterViewInit , OnInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  columnas: string[] = ['ID', 'NOMBRE', 'APELLIDOS', 'CORREO', 'ESTADO', 'ROL','ACCIONES'];
+  columnas: string[] = ['ID', 'NOMBRE Y APELLIDOS', 'CORREO', 'ESTADO', 'ROL','ACCIONES'];
   dataSource = new MatTableDataSource<Usuario>;
 
-  constructor(private servicio:UsuarioService, public dialog: MatDialog) {
+  constructor(
+    private servicio:UsuarioService,
+    public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -45,7 +47,7 @@ export class UsuarioComponent implements AfterViewInit , OnInit{
   listarUsuarios(){
     return this.servicio.getUsuarios().subscribe(
       {next: res => {
-        let filtrado = res.filter(u => u.estado =="Activo")
+        let filtrado = res.filter(u => u.activo == true)
         this.dataSource = new MatTableDataSource(filtrado)
         this.dataSource.paginator = this.paginator;
         },
@@ -81,36 +83,41 @@ export class UsuarioComponent implements AfterViewInit , OnInit{
     });
   }
 
-  bloquearUsuario(fila:any): void{
+  bloquearUsuario(fila: any): void {
+
+    const esBloqueo = !fila.activo;
+    const accion = !esBloqueo ? 'bloquear' : 'habilitar';
+    const pregunta = `¿Estás seguro de ${accion} a <strong>${fila.nombreUsuario}</strong>?`;
+    const mensajeBoton = `Sí, ${accion}!`;
+    const mensajeConfirmacion = `Usuario ${accion}do con éxito!`;
 
     swall.fire({
-      html: `¿Estas seguro de bloquear a <strong>${fila.nombres} ${fila.apellidos}</strong>?`,
+      html: pregunta,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#0275d8',
       cancelButtonColor: '#9c9c9c',
-      confirmButtonText: 'Si, bloquear!',
-      cancelButtonText:'Cancelar'
+      confirmButtonText: mensajeBoton,
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-
-        this.servicio.bloquearUsuarioServi(fila).subscribe({
-          next:(res) => {
+        this.servicio.cambiarEstado(fila.id, esBloqueo).subscribe({
+          next: (res) => {
             this.listarUsuarios();
           },
-          error:(error) => {
-            console.log("Ocurrio un error")
-          }
-        })
+          error: (error) => {
+            console.error('Ocurrió un error', error);
+          },
+        });
 
         swall.fire({
-          icon:'success',
-          html:'Usuario bloqueado con exito!'
-        }
-        )
-      } 
-    })
+          icon: 'success',
+          html: mensajeConfirmacion,
+        });
+      }
+    });
   }
+
 
   mostrarInactivos(){
 
@@ -118,7 +125,7 @@ export class UsuarioComponent implements AfterViewInit , OnInit{
 
     this.servicio.getUsuarios().subscribe(
       {next: res => {
-        let filtrado = res.filter(u => u.estado=="Inactivo")
+        let filtrado = res.filter(u => u.activo==false)
         this.dataSource = new MatTableDataSource(filtrado)
         this.dataSource.paginator = this.paginator;
         },

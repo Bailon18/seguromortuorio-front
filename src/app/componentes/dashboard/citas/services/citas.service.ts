@@ -6,7 +6,7 @@ import { PacienteDTO } from '../model/pacientedto';
 import { Citas } from '../model/citas';
 import { CitasDTO } from '../model/citasdto';
 import { Afiliacion } from '../model/afiliacion';
-import { Paciente } from '../../paciente/models/paciente';
+
 import { ListaCitaxPsicologaDTO } from '../model/listacitasxpsicologadto';
 
 

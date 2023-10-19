@@ -5,18 +5,22 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { PacienteComponent } from './paciente/paciente.component';
+
 import { UsuarioComponent } from './usuario/usuario.component';
 import { CitasComponent } from './citas/citas.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { MaterialModule } from '../../material/material.module';
 import { CrearComponent } from './usuario/paginas/crear.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormpacienteComponent } from './paciente/paginas/formPaciente/formpaciente.component';
+
 import { ListarsesionesComponent } from './citas/paginas/listarsesiones/listarsesiones.component';
 import { DetallecitaComponent } from './citas/paginas/detallecita/detallecita.component';
 import { NuevacitaComponent } from './citas/paginas/nuevacita/nuevacita.component';
-import { HistorialComponent } from './paciente/historial/historial.component';
+import { PacienteComponent } from './socio/paciente.component';
+import { FormpacienteComponent } from './socio/paginas/formPaciente/formpaciente.component';
+import { HistorialComponent } from './socio/historial/historial.component';
+import { AfiliadosComponent } from './afiliados/afiliados.component';
+
 
 
 
@@ -36,7 +40,8 @@ import { HistorialComponent } from './paciente/historial/historial.component';
     ListarsesionesComponent,
     DetallecitaComponent,
     NuevacitaComponent,
-    HistorialComponent
+    HistorialComponent,
+    AfiliadosComponent
   ],
   imports: [
     CommonModule,

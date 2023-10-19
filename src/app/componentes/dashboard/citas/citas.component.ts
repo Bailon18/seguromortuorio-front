@@ -6,9 +6,9 @@ import { Usuario } from '../usuario/model/usuario';
 import swall from 'sweetalert2'; // npm install sweetalert2 --save
 import { MatDialog } from '@angular/material/dialog';
 import { NuevacitaComponent } from './paginas/nuevacita/nuevacita.component';
-import { FormpacienteComponent } from '../paciente/paginas/formPaciente/formpaciente.component';
 import { DetallecitaComponent } from './paginas/detallecita/detallecita.component';
 import { CitasDTO } from './model/citasdto';
+import { FormpacienteComponent } from '../socio/paginas/formPaciente/formpaciente.component';
 
 
 
@@ -56,32 +56,32 @@ export class CitasComponent implements OnInit {
 
     ngOnInit(): void {
 
-        this.servicio.listarPsicologas().subscribe(resultado => {
-            this.psicologos = resultado.filter(psicologo => {
-                let res = psicologo.roles.some( r => r.descripcion === "Psicologo" )
-                return res;
-            })
-        })
+        // this.servicio.listarPsicologas().subscribe(resultado => {
+        //     this.psicologos = resultado.filter(psicologo => {
+        //         let res = psicologo.roles.some( r => r.descripcion === "Psicologo" )
+        //         return res;
+        //     })
+        // })
 
-        this.listacitasresul = this.horadefinida.splice(7,20);
-        this.fechatext = new Date().toLocaleDateString('es-PE', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
+        // this.listacitasresul = this.horadefinida.splice(7,20);
+        // this.fechatext = new Date().toLocaleDateString('es-PE', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
         
-        this.rolInicioSesion = JSON.parse(localStorage.getItem('rol')!) || [];
+        // this.rolInicioSesion = JSON.parse(localStorage.getItem('rol')!) || [];
 
 
-        // si el rol de inicio es Psicologo -> llamamos automaticamente el listar citas 
-        // * sin necesidad de estar seleccionado la psicologa y la fecha
-        if(this.rolInicioSesion == 'Psicologo'){
+        // // si el rol de inicio es Psicologo -> llamamos automaticamente el listar citas 
+        // // * sin necesidad de estar seleccionado la psicologa y la fecha
+        // if(this.rolInicioSesion == 'Psicologo'){
 
-            let psicologa = JSON.parse(localStorage.getItem('usuario')!) || [];
-            this.nombrepsicologa = psicologa.nombres +" "+ psicologa.apellidos
-            let fechaactual = new Date();
-            // console.log("PSICOLOGO ID ",psicologa.id);
-            // console.log("FECHA ACTUAL ", fechaactual);
+        //     let psicologa = JSON.parse(localStorage.getItem('usuario')!) || [];
+        //     this.nombrepsicologa = psicologa.nombres +" "+ psicologa.apellidos
+        //     let fechaactual = new Date();
+        //     // console.log("PSICOLOGO ID ",psicologa.id);
+        //     // console.log("FECHA ACTUAL ", fechaactual);
 
-            this.listarCitas(psicologa.id, fechaactual)
+        //     this.listarCitas(psicologa.id, fechaactual)
 
-        }
+        // }
  
     }
 

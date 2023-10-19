@@ -1,4 +1,5 @@
-import { Paciente } from "../../paciente/models/paciente";
+
+import { Paciente } from '../../socio/models/paciente';
 import { Usuario } from '../../usuario/model/usuario';
 import { Servicio } from "./servicio";
 

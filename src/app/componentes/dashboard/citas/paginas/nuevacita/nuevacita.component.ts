@@ -3,11 +3,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import swall from 'sweetalert2';
 import { CitasService } from '../../services/citas.service';
-import { Paciente } from '../../../paciente/models/paciente';
 import { Citas } from '../../model/citas';
 import { Usuario } from '../../../usuario/model/usuario';
 import { Servicio } from '../../model/servicio';
 import { Afiliacion } from '../../model/afiliacion';
+import { Paciente } from '../../../socio/models/paciente';
 
 
 @Component({

@@ -16,17 +16,12 @@ import { Usuario } from './model/usuario-logeo';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-
-
   formulario: FormGroup;
   usuario: Usuario;
 
-
   constructor(
     private fb: FormBuilder,
-    private _snackBar: MatSnackBar,
     private router: Router,
-    private toast: NgToastService,
     private servicioLogin: LoginService,
     private servicioSession: SessionService
   ) {
@@ -42,30 +37,27 @@ export class LoginComponent implements OnInit {
     const correo = this.formulario.value.usuario;
     const contrasena = this.formulario.value.password;
 
-    this.servicioLogin.validarInicioSesion(correo, contrasena).subscribe(
-      {
-        next: (usuario: Usuario) => {
-          this.servicioSession.setUsuarioLogeado(usuario);
-          this.servicioSession.setRolNombre(usuario.tipoUsuario);
-          this.servicioSession.setUsuarioNombre(usuario.nombreUsuario);
-          swall.fire({
-            html: `<strong>${usuario.nombreUsuario.toLowerCase()}</strong> Iniciaste sesión como: <strong>${usuario.tipoUsuario.toUpperCase()}</strong>`,
-            icon: 'success',
-            confirmButtonColor: '#0275d8',
-          });
-
-        },
-        error: (error:any) => {
-          swall.fire({
-            html: 'Error al iniciar sesión',
-            icon: 'error',
-            confirmButtonColor: '#d80227',
-          });
-        }
-      }
-    );
-}
-
+    this.servicioLogin.validarInicioSesion(correo, contrasena).subscribe({
+      next: (usuario: Usuario) => {
+        this.servicioSession.setUsuarioLogeado(usuario);
+        this.servicioSession.setRolNombre(usuario.tipoUsuario);
+        this.servicioSession.setUsuarioNombre(usuario.nombreUsuario);
+        swall.fire({
+          html: `<strong>${usuario.nombreUsuario.toLowerCase()}</strong> Iniciaste sesión como: <strong>${usuario.tipoUsuario.toUpperCase()}</strong>`,
+          icon: 'success',
+          confirmButtonColor: '#0275d8',
+        });
+        this.router.navigate(['dashboard']);
+      },
+      error: (error: any) => {
+        swall.fire({
+          html: 'Error al iniciar sesión',
+          icon: 'error',
+          confirmButtonColor: '#d80227',
+        });
+      },
+    });
+  }
 
   setServicioRol(rol: any) {
     // swall.fire({

@@ -5,10 +5,10 @@ import { Usuario } from '../../../usuario/model/usuario';
 import { Citas } from '../../model/citas';
 import { CitasDTO } from '../../model/citasdto';
 import { CitasService } from '../../services/citas.service';
-import { Paciente } from '../../../paciente/models/paciente';
 import { Servicio } from '../../model/servicio';
 import swall from 'sweetalert2';
 import { DatePipe } from '@angular/common';
+import { Paciente } from '../../../socio/models/paciente';
 
 @Component({
     selector: 'app-detallecita',

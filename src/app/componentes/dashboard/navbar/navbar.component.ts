@@ -1,21 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { Roles, Usuario } from '../usuario/model/usuario';
 import { LoginService } from '../../login/login.service';
+import { SessionService } from '../../login/session.service';
+import { Usuario } from '../../login/model/usuario-logeo';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css'] 
 })
 export class NavbarComponent implements OnInit {
 
-  usuario: Usuario = new Usuario();
-  roles: Roles = new Roles();
+  usuario: Usuario;
   rolInicioSesion:string;
 
-  constructor(private servicio: LoginService) { }
+  constructor(
+    private servicio: LoginService,
+    public servicioSession: SessionService
+    ) { }
 
   ngOnInit(): void {
 
+    this.usuario = this.servicioSession.getUsuarioLogeado();
+    console.log(this.usuario)
     // this.servicio.getObtenerUsuario().subscribe({
     // next:(res) => {
     //   // this.usuario = res;

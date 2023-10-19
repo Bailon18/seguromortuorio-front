@@ -77,7 +77,7 @@ export class HistorialComponent implements OnInit {
 
                 this.historiaform.controls['idafiliacion'].setValue(this.afiliacion.id)
                 this.historiaform.controls['idpsicologa'].setValue(this.afiliacion.psicologo.id)
-                this.historiaform.controls['psicologa'].setValue(this.afiliacion.psicologo.nombres + ' ' + this.afiliacion.psicologo.apellidos);
+                //this.historiaform.controls['psicologa'].setValue(this.afiliacion.psicologo.nombres + ' ' + this.afiliacion.psicologo.apellidos);
                 this.historiaform.controls['psicologa'].disable();
                 this.historiaform.controls['fechaafiliacion'].setValue(this.afiliacion.fechaafiliacion);
                 this.historiaform.controls['fechacierre'].setValue(this.afiliacion.fechacierrrrr);

@@ -15,63 +15,39 @@ import swall from 'sweetalert2';
 })
 export class CrearComponent implements OnInit {
 
-  usuarioForm !: FormGroup
-  rolesServicios: any;
-  rolesDevista!: Roles[];
+  usuarioForm: FormGroup
   titulo: string = "Nuevo Usuario";
   tituloBoton:string ="Guardar"
  
-
-  listaRoles! : Roles[];
-
   constructor(private formbuilder: FormBuilder, 
             private servicio: UsuarioService,
             @Inject(MAT_DIALOG_DATA) public datoedit : any,
-            private dialog : MatDialogRef<CrearComponent>,
-            private _snackBar: MatSnackBar)
+            private dialog : MatDialogRef<CrearComponent>)
           {}
 
   ngOnInit(): void {
 
-    this.listaRoles = this.servicio.getRoles();
-    
+   
     this.usuarioForm = this.formbuilder.group({
-      id:[''],
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      dni: ['',[Validators.required,Validators.min(10000000),Validators.max(99999999)]],
+      id: [''],
+      nombreUsuario: ['', Validators.required],
       contrasena: ['',[Validators.required, Validators.minLength(5)]],
-      correo: ['', [Validators.required, Validators.email]],
-      estado: ['', Validators.required],
-      sexo: ['', Validators.required],
+      correoElectronico: ['', [Validators.required, Validators.email]],
+      activo: [true, Validators.required],
+      tipoUsuario: ['ADMINISTRADOR']
     })
 
 
     if(this.datoedit){
 
-      this.listaRoles.forEach((item) => {
-        item.seleccion = false;})
-
       this.servicio.buscarUsuario(this.datoedit.id).subscribe(u => 
         {
-
           this.usuarioForm.controls['id'].setValue(u.id)
-          this.usuarioForm.controls['nombres'].setValue(u.nombres);
-          this.usuarioForm.controls['apellidos'].setValue(u.apellidos);
-          this.usuarioForm.controls['dni'].setValue(u.dni);
+          this.usuarioForm.controls['nombreUsuario'].setValue(u.nombreUsuario);
           this.usuarioForm.controls['contrasena'].setValue(u.contrasena);
-          this.usuarioForm.controls['correo'].setValue(u.correo);
-          this.usuarioForm.controls['estado'].setValue(u.estado);
-          this.usuarioForm.controls['sexo'].setValue(u.sexo);
-
-
-          for(const r of u.roles){
-            for(const rn of this.listaRoles){
-              if(r.id === rn.id){
-                rn.seleccion = true;
-              }
-            }
-          }
+          this.usuarioForm.controls['correoElectronico'].setValue(u.correoElectronico);
+          this.usuarioForm.controls['activo'].setValue(u.activo);
+          this.usuarioForm.controls['tipoUsuario'].setValue(u.tipoUsuario);
         })
 
       this.titulo = "Editar Usuario";
@@ -81,9 +57,7 @@ export class CrearComponent implements OnInit {
   }
 
 
-  onchange(event: any) {
-    this.rolesDevista = this.listaRoles.slice()
-  }
+
 
 
   guardarUsuario(){
@@ -92,27 +66,12 @@ export class CrearComponent implements OnInit {
     
         if(this.usuarioForm.valid){
     
-          let copiaRoles = this.rolesDevista.slice()
-    
-          let resultado = copiaRoles.filter(x => x.seleccion==true).map(({seleccion, ...rest}) => {
-            return rest;
-          });
-
-          this.usuarioForm.value['roles']= resultado
-
-          //console.log("US ", this.usuarioForm.value);
-          
           this.servicio.guardarUsuarioServi(this.usuarioForm.value).subscribe( usu => {
-
-              
-              this.listaRoles.forEach((item) => {
-              item.seleccion = false;})
-            
               this.dialog.close("guardar")
               swall.fire({
                 icon: 'success',
                 confirmButtonColor:'#0275d8',
-                html:  `Se registro correctamente al usuario:  <strong>${this.usuarioForm.value['nombres']}</strong>`,
+                html:  `Se registro correctamente al usuario:  <strong>${this.usuarioForm.value['nombreUsuario']}</strong>`,
               })
           
             }
@@ -126,60 +85,29 @@ export class CrearComponent implements OnInit {
 
   actualizarUsuario(){
     
-    this.onchange(Event)
-
-    let copiaRoles = this.rolesDevista.slice()
-    
-    let resultado = copiaRoles.filter(x => x.seleccion==true).map(({seleccion, ...rest}) => {
-      return rest;
-    });
-
-    this.usuarioForm.value['roles']= resultado
-    
-    this.servicio.actualizarUsuarioServi(this.usuarioForm.value).subscribe(usuario => {
-
-      this.listaRoles.forEach((item) => {
-      item.seleccion = false;})
-
+    this.servicio.guardarUsuarioServi(this.usuarioForm.value).subscribe(usuario => {
       this.dialog.close("actualizar");
       swall.fire({
         icon: 'success',
         confirmButtonColor:'#0275d8',
-        html:  `Se actualizo correctamente al usuario:  <strong>${this.usuarioForm.value['nombres']}</strong>`,
+        html:  `Se actualizo correctamente al usuario:  <strong>${this.usuarioForm.value['nombreUsuario']}</strong>`,
       })
 
     })
 
   }
 
-
-  validardni(event:any){
-
-    const dni = (event.target as HTMLInputElement).value;
-    
-    if(dni.length == 8){
-
-      this.servicio.validardni(dni).subscribe(res => {
-        if(res != null ){
-          this.usuarioForm.controls['dni'].setErrors({ invalid: 'Dni ya esta registrado' });
-        }else{
-          this.usuarioForm.controls['dni'].setErrors(null);
-        }
-      })
-    }
-  }
-
-
   validarcorreo(event:any){
 
-    if (this.usuarioForm.controls['correo'].valid){
+    if (this.usuarioForm.controls['correoElectronico'].valid){
+      
       const correo = (event.target as HTMLInputElement).value;
 
       this.servicio.validarcorreo(correo).subscribe(res => {
-        if(res != null ){
-          this.usuarioForm.controls['correo'].setErrors({ invalid: 'Correo ya esta registrado' });
+        if(res){
+          this.usuarioForm.controls['correoElectronico'].setErrors({ invalid: 'Correo ya esta registrado' });
         }else{
-          this.usuarioForm.controls['correo'].setErrors(null);
+          this.usuarioForm.controls['correoElectronico'].setErrors(null);
         }
       })
 

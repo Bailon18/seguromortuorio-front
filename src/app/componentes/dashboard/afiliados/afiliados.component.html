@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-6 mb-2">
                 <mat-card-title>
-                    Lista de Usuarios
+                    Lista de Socios
                 </mat-card-title>
             </div>
         </div>
@@ -27,52 +27,48 @@
                             </div>
                         </div>
                         <div class="col-6 text-end">
-                            <button class="btn btn-primary" (click)="abrirDialogoNuevoUsuario()">Nuevo Usuario</button>
+                            <button class="btn btn-primary" (click)="abrirDialogoNuevoAfiliado()">Nuevo Socio</button>
                         </div>
                     </div>
                     <div class="mat-elevation-z8">
                         <table mat-table [dataSource]="dataSource">
                             <ng-container matColumnDef="ID">
-                            <th mat-header-cell *matHeaderCellDef> idUsuario</th>
+                            <th mat-header-cell *matHeaderCellDef> ID</th>
                             <td mat-cell *matCellDef="let fila"> {{fila.id}} </td>
                             </ng-container>
                         
-                            <ng-container matColumnDef="NOMBRE Y APELLIDOS">
-                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                            <td mat-cell *matCellDef="let fila"> {{fila.nombreUsuario}} </td>
+                            <ng-container matColumnDef="FECHA DE INSCRIPCION">
+                                <th mat-header-cell *matHeaderCellDef> Fecha de inscripción </th>
+                                <td mat-cell *matCellDef="let fila"> {{fila.fechaInscripcion | date:'yyyy-MM-dd HH:mm'}} </td>
                             </ng-container>
-                        
-                
-                            <ng-container matColumnDef="CORREO">
-                                <th mat-header-cell *matHeaderCellDef> Correo </th>
-                                <td mat-cell *matCellDef="let fila"> {{fila.correoElectronico}} </td>
+                              
+                    
+                            <ng-container matColumnDef="NOMBRE">
+                                <th mat-header-cell *matHeaderCellDef> Nombres </th>
+                                <td mat-cell *matCellDef="let fila"> {{fila.nombre}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="APELLIDOS">
+                                <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+                                <td mat-cell *matCellDef="let fila"> {{fila.apellido}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="DOCUMENTO IDENTIDAD">
+                                <th mat-header-cell *matHeaderCellDef> Documento de identidad </th>
+                                <td mat-cell *matCellDef="let fila"> {{fila.documentoIdentidad}} </td>
                             </ng-container>
                             
-                            <ng-container matColumnDef="ESTADO" style="width: 100%;">
-                            <th mat-header-cell *matHeaderCellDef> Estado </th>
-                            <td mat-cell *matCellDef="let fila">
-                                <div *ngIf="fila.activo === true ; else ladoNe">                
-                                    <span class="badge text-bg-secondary">{{'Activo'}}</span>
-                                </div>
-                                <ng-template #ladoNe>
-                                    <span class="badge text-bg-danger">{{'Inactivo'}}</span>
-                                </ng-template>  
-                            </td>
+                            <ng-container matColumnDef="TELEFONO">
+                                <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                                <td mat-cell *matCellDef="let fila"> {{fila.telefono}} </td>
                             </ng-container>
                         
-                            <ng-container matColumnDef="ROL">
-                            <th mat-header-cell *matHeaderCellDef> Rol </th>
-    
-                            <td mat-cell *matCellDef="let fila">
-                                    {{fila.tipoUsuario}}
-                            </td>
-                            </ng-container>
-                
+ 
                             <ng-container matColumnDef="ACCIONES">
                                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                                 <td mat-cell *matCellDef="let fila">
-                                    <a class="pointer iconosAccion" matTooltip="Editar Usuario" (click)="editarUsuario(fila)"><mat-icon class="success-icon">edit</mat-icon></a>
-                                    <a class="pointer iconosAccion" matTooltip="{{ fila.activo ? 'Bloquear Usuario' : 'Habilitar Usuario' }}" (click)="bloquearUsuario(fila)">
+                                    <a class="pointer iconosAccion" matTooltip="Editar Socio" (click)="editarAfiliado(fila)"><mat-icon class="success-icon">edit</mat-icon></a>
+                                    <a class="pointer iconosAccion" matTooltip="{{ fila.activo ? 'Inabilitar Socio' : 'Habilitar Socio' }}" (click)="bloquearAfiliado(fila)">
                                         <mat-icon class="danger-icon">{{ fila.activo ? 'not_interested' : 'done' }}</mat-icon>
                                     </a>
                                 </td>
