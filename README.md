@@ -1,0 +1,1 @@
+# seguromortuorio-front
