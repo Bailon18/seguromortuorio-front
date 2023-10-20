@@ -54,9 +54,10 @@
         <div class="col-6">
             <mat-form-field appearance="fill">
                 <mat-label>Fecha de Nacimiento</mat-label>
-                <input matInput formControlName="fechaNacimiento" [matDatepicker]="picker" (dateChange)="actualizarEdad($event)">
+                <input matInput formControlName="fechaNacimiento" [matDatepicker]="picker"
+                    (dateChange)="actualizarEdad($event)">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker ></mat-datepicker>
+                <mat-datepicker #picker></mat-datepicker>
                 <mat-error class="mensaje" *ngIf="socioForm.get('fechaNacimiento')?.invalid && 
                 socioForm.get('fechaNacimiento')?.errors && 
                 (socioForm.get('fechaNacimiento')?.dirty || socioForm.get('fechaNacimiento')?.touched)">
@@ -189,7 +190,9 @@
         <!-- ARCHIVO (solo en modo crear) -->
         <div class="col-6" *ngIf="modoCrear">
             <mat-label>Documento/Archivo</mat-label>
-            <input #imagenInputFile type="file" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" (change)="onFileSelected($event)" formControlName="archivo">
+            <input #imagenInputFile type="file"
+                accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                (change)="onFileSelected($event)" formControlName="archivo">
             <mat-error class="mensaje" *ngIf="socioForm.get('archivo')?.invalid && 
                 socioForm.get('archivo')?.errors && 
                 (socioForm.get('archivo')?.dirty || socioForm.get('archivo')?.touched)">
@@ -200,17 +203,32 @@
         </div>
 
         <!-- Botón para descargar archivo (solo en modo editar) -->
+        <!-- Botón para descargar archivo (solo en modo editar) -->
         <div class="col-6" *ngIf="!modoCrear">
-            <button  (click)="descargarArchivo()" class="archivo-link">
-                <i class="far fa-file-alt archivo-icon"></i>
-                Descargar Archivo
-            </button>
+            <div class="row">
+                <div class="col-12">
+                    <h5 class="text-center">Documento Socio</h5>
+                </div>
+                <div class="col-6">
+                    <!-- Botón para ver vista previa -->
+                    <button (click)="verVistaPrevia()" class="archivo-link">
+                        <i class="far fa-eye archivo-icon"></i> <!-- Icono de ojo para vista previa -->
+                        Ver Vista Previa
+                    </button>
+                </div>
+                <div class="col-6">
+                    <!-- Botón para descargar archivo -->
+                    <button (click)="descargarArchivo()" class="archivo-link">
+                        <i class="fa-solid fa-download"></i><!-- Icono de descarga -->
+                        Descargar Archivo
+                    </button>
+                </div>
+            </div>
         </div>
         
         
-        
     </div>
-    
+
 
     <!-- Botones -->
     <div class="row mb-2">
@@ -221,13 +239,3 @@
         </div>
     </div>
 </form>
-
-
-
-
-
-
-
-
-
-

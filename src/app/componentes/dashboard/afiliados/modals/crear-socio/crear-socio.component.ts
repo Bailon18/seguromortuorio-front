@@ -65,6 +65,7 @@ export class CrearSocioComponent implements OnInit {
           activo: u.activo,
           archivo: u.archivo
         });
+
       });
 
       this.modoCrear = false;
@@ -155,38 +156,47 @@ export class CrearSocioComponent implements OnInit {
     }
   }
 
-  descargarArchivo() {
-    const archivo = this.socioForm.get('archivo')?.value; // Obtiene el archivo byte[] desde el formulario
-    let tipoContenido = 'application/octet-stream'; // Tipo de contenido predeterminado si no es PDF o Word
-  
-    // Detecta el tipo de archivo por su contenido o extensión
-    if (archivo instanceof Uint8Array) {
-      // Verifica si los primeros bytes son consistentes con un archivo PDF
-      if (
-        archivo[0] === 0x25 && // %
-        archivo[1] === 0x50 && // P
-        archivo[2] === 0x44 && // D
-        archivo[3] === 0x46 && // F
-      ) {
-        tipoContenido = 'application/pdf';
-      } else if (
-        archivo[0] === 0xD0 && // Ð
-        archivo[1] === 0xCF && // Ï
-        archivo[2] === 0x11 && // 17
-        archivo[3] === 0xE0  // à
-      ) {
-        tipoContenido = 'application/msword'; // Tipo de contenido para archivos de Word
+  verVistaPrevia() {
+    const archivo = this.socioForm.get('archivo')?.value;
+    if (archivo) {
+      const byteCharacters = atob(archivo);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
-    }
+      const byteArray = new Uint8Array(byteNumbers);
+      const archivoBlob = new Blob([byteArray], { type: 'application/pdf' });
   
-    const blob = new Blob([archivo], { type: tipoContenido });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'nombre-del-archivo'; // Define el nombre del archivo sin la extensión
-    a.click();
-    window.URL.revokeObjectURL(url);
+      const archivoUrl = window.URL.createObjectURL(archivoBlob);
+  
+      // Abre una nueva ventana o pestaña para mostrar la vista previa del archivo
+      window.open(archivoUrl, '_blank');
+    }
   }
+  
+  descargarArchivo() {
+    const archivo = this.socioForm.get('archivo')?.value;
+    if (archivo) {
+      const byteCharacters = atob(archivo);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const archivoBlob = new Blob([byteArray], { type: 'application/pdf' });
+  
+      const url = window.URL.createObjectURL(archivoBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download ='documento-' + this.socioForm.value.nombre + '.pdf';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  }
+  
+  
+  
+  
   
 
 }
