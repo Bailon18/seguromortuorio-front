@@ -10,23 +10,19 @@ import { Socio } from '../model/socio';
 })
 export class AfiliadosService {
 
-
-  private httpHeaders = new HttpHeaders({'Content-Type':'application/json'});
-
   constructor(private http: HttpClient) { }
-
 
   getAfiliaciones(): Observable<Socio[]>{
     return this.http.get<Socio[]>(`${baseUrl}/apifm/socios`);
   }
 
-  // buscarUsuario(id:number): Observable<Usuario>{
-  //   return this.http.get<Usuario>(`${baseUrl}/apifm/usuarios/${id}`);
-  // }
+  buscarAfiliacion(id:number): Observable<Socio>{
+    return this.http.get<Socio>(`${baseUrl}/apifm/socios/${id}`);
+  }
 
-  // guardarUsuarioServi(usuario: Usuario):Observable<Usuario>{
-  //   return this.http.post<Usuario>(`${baseUrl}/apifm/usuarios`, usuario, {headers: this.httpHeaders});
-  // }
+  guardarAfiliacion(dato: FormData):Observable<Socio>{
+    return this.http.post<Socio>(`${baseUrl}/apifm/socios`, dato);
+  }
 
   // cambiarEstado(id: number, estado: boolean): Observable<any> {
   //   return this.http.post(`${baseUrl}/apifm/usuarios/cambiarEstado/${id}/${estado}`, {});

@@ -1,9 +1,11 @@
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Afiliacion } from '../citas/model/afiliacion';
 import { Socio } from './model/socio';
 import { AfiliadosService } from './services/afiliados.service';
+import { CrearSocioComponent } from './modals/crear-socio/crear-socio.component';
+
 
 @Component({
   templateUrl: './afiliados.component.html',
@@ -20,6 +22,7 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
 
   constructor(
     private servicioAfiliacion: AfiliadosService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -59,11 +62,24 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
   }
 
   abrirDialogoNuevoAfiliado(){
-
+    this.dialog.open(CrearSocioComponent, {
+      width:'600px',
+      }).afterClosed().subscribe(valor =>{
+        if (valor === 'guardar') {
+          this.listarAfiliaciones();
+        }
+    });
   }
 
   editarAfiliado(fila: any){
-
+    this.dialog.open(CrearSocioComponent, {
+      width:'600px',
+      data:fila
+      }).afterClosed().subscribe(valor =>{
+        if (valor === 'actualizar') {
+          this.listarAfiliaciones();
+        }
+    });
   }
 
   bloquearAfiliado(fila: any){

@@ -1,5 +1,5 @@
 export class Socio {
-    id: number;
+    id?: number;
     nombre: string;
     apellido: string;
     documentoIdentidad: string;
@@ -11,5 +11,6 @@ export class Socio {
     contrasena: string;
     fechaInscripcion: Date;
     activo: boolean;
+    archivo?: string
   }
   

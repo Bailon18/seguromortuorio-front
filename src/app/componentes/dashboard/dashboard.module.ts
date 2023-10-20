@@ -20,11 +20,7 @@ import { PacienteComponent } from './socio/paciente.component';
 import { FormpacienteComponent } from './socio/paginas/formPaciente/formpaciente.component';
 import { HistorialComponent } from './socio/historial/historial.component';
 import { AfiliadosComponent } from './afiliados/afiliados.component';
-
-
-
-
-
+import { CrearSocioComponent } from './afiliados/modals/crear-socio/crear-socio.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +37,8 @@ import { AfiliadosComponent } from './afiliados/afiliados.component';
     DetallecitaComponent,
     NuevacitaComponent,
     HistorialComponent,
-    AfiliadosComponent
+    AfiliadosComponent,
+    CrearSocioComponent
   ],
   imports: [
     CommonModule,
