@@ -1,0 +1,28 @@
+<mat-tab-group #tabGroup class="invisible-tabs">
+    <!-- Pestaña 1: Tabla de familiares -->
+    <mat-tab label=" ">
+      <h1 mat-dialog-title style="font-weight: 500;">Gestion Familiar de socio:</h1>
+      <!-- Contenido de la pestaña 1: Tabla de familiares -->
+      <table class="table">
+        <!-- Tu tabla de familiares aquí -->
+      </table>
+      <button (click)="changeTab(1)">Ir a Agregar Familiar</button>
+    </mat-tab>
+  
+    <!-- Pestaña 2: Agregar Familiar -->
+    <mat-tab label=" ">
+      <h1 mat-dialog-title style="font-weight: 500;">Nuevo familiar</h1>
+      <!-- Contenido de la pestaña 2: Formulario para agregar un nuevo familiar -->
+      <!-- Aquí puedes colocar el formulario para agregar familiares -->
+      <button (click)="changeTab(0)">Volver a la Tabla de familiares</button>
+    </mat-tab>
+  
+    <!-- Pestaña 3: Editar Familiar -->
+    <mat-tab label=" ">
+      <h1 mat-dialog-title style="font-weight: 500;">Gestion Familiar de socio:</h1>
+      <!-- Contenido de la pestaña 3: Formulario para editar un familiar existente -->
+      <!-- Aquí puedes colocar el formulario para editar familiares -->
+      <button (click)="changeTab(2)">Volver a la Tabla de familiares</button>
+    </mat-tab>
+  </mat-tab-group>
+  

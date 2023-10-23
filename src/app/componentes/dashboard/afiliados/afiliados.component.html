@@ -71,6 +71,7 @@
                                     <a class="pointer iconosAccion" matTooltip="{{ fila.activo ? 'Inabilitar Socio' : 'Habilitar Socio' }}" (click)="bloquearAfiliado(fila)">
                                         <mat-icon class="danger-icon">{{ fila.activo ? 'not_interested' : 'done' }}</mat-icon>
                                     </a>
+                                    <a class="pointer iconosAccion" matTooltip="ver familiares" (click)="abrirDialogoFamiliar(fila)"><mat-icon class="primary-icon">group</mat-icon></a>
                                 </td>
                                 
                             </ng-container>

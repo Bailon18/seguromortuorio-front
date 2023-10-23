@@ -1,0 +1,5 @@
+package com.museo.modelo.repositorios;
+
+public class VitrinasRepository {
+
+}

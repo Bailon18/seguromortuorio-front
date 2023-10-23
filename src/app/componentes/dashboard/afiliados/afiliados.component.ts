@@ -5,6 +5,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Socio } from './model/socio';
 import { AfiliadosService } from './services/afiliados.service';
 import { CrearSocioComponent } from './modals/crear-socio/crear-socio.component';
+import { CrearFamiliarComponent } from './modals/crear-familiar/crear-familiar.component';
 
 
 @Component({
@@ -59,6 +60,17 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
 
   mostrarInactivos(){
 
+  }
+
+  abrirDialogoFamiliar(fila: any){
+    this.dialog.open(CrearFamiliarComponent, {
+      width:'600px',
+      data:fila
+      }).afterClosed().subscribe(valor =>{
+        if (valor === 'guardar') {
+          this.listarAfiliaciones();
+        }
+    });
   }
 
   abrirDialogoNuevoAfiliado(){

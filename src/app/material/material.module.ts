@@ -22,7 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
-
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 
@@ -49,7 +49,8 @@ import {CdkAccordionModule} from '@angular/cdk/accordion';
     MatDatepickerModule,
     MatNativeDateModule,
     NgbModule,
-    CdkAccordionModule
+    CdkAccordionModule,
+    MatTabsModule
 
   ],
 
@@ -74,7 +75,8 @@ import {CdkAccordionModule} from '@angular/cdk/accordion';
     MatDatepickerModule,
     MatNativeDateModule,
     NgbModule,
-    CdkAccordionModule
+    CdkAccordionModule,
+    MatTabsModule
 
     
 
