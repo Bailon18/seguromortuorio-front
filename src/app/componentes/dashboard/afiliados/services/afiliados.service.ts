@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import baseUrl from 'src/app/helpers';
 import { Socio } from '../model/socio';
+import { Familiar } from '../model/familia';
 
 
 @Injectable({
@@ -22,6 +23,14 @@ export class AfiliadosService {
 
   guardarAfiliacion(dato: FormData):Observable<Socio>{
     return this.http.post<Socio>(`${baseUrl}/apifm/socios`, dato);
+  }
+
+  guardarFamiliar(dato: FormData):Observable<Familiar>{
+    return this.http.post<Familiar>(`${baseUrl}/apifm/familiares`, dato);
+  }
+
+  obtenerFamiliaresPorSocioId(id: number): Observable<Familiar[]>{
+    return this.http.get<Familiar[]>(`${baseUrl}/apifm/familiares/por-socio/${id}`);
   }
 
   // cambiarEstado(id: number, estado: boolean): Observable<any> {

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de coordinacion</title>
+    <!-- Agrega enlaces a las bibliotecas de Bootstrap y Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        .formulario-header {
+            background-color: #343A40;
+            color: #fff;
+        }
+        .card {
+            background-color: #F8F9FA;
+        }
+        
+        
+		    .nombre-destacado {
+		        color: #007BFF;
+		        font-weight: bold;
+		  }
+    </style>
+</head>
+<body>
+    <!-- Menú de Navegación con fondo oscuro -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Coordinaciones B.E</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+		    <ul class="navbar-nav">
+		        <li class="nav-item">
+		            <a class="nav-link" th:href="@{/usuarios/inicio}">Usuarios</a>
+		        </li>
+		        <li class="nav-item">
+		            <a class="nav-link" th:href="@{/coordinacion/listado}">Coordinaciones bienestar estudiantil</a>
+		        </li>
+		    </ul>
+		</div>
+        <!-- Nombre del usuario y botón de cierre de sesión -->
+        <div class="navbar-text">
+            <span class="mr-3">Nombre de Usuario</span>
+            <a th:href="@{/usuarios/}" class="btn btn-danger">Cerrar Sesión <i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <div class="card">
+			<div class="card-header formulario-header">
+			    <h2 class="mb-0 text-center">Nueva coordinación para <span th:text="${nombreUsuario}" class="nombre-destacado"></span></h2>
+			</div>
+
+            <div class="card-body">
+                <form  th:action="@{/coordinacion/nuevo}" method="post"  th:object="${coordinacion}" enctype="multipart/form-data">
+					<input type="hidden" id="usuarioid" name="usuarioid" th:value="${usuarioid}" />
+
+				    <div class="form-group">
+				        <label for="presentacionProblema">Presentación del Problema:</label>
+				        <textarea class="form-control" id="presentacionProblema" name="presentacionProblema" th:field="*{presentacionProblema}" rows="4" required></textarea>
+				    </div>
+				    <div class="form-group">
+				        <label for="problemaDescripcion">Descripción del Problema:</label>
+				        <textarea class="form-control" id="problemaDescripcion" name="problemaDescripcion" th:field="*{problemaDescripcion}" rows="4" required></textarea>
+				    </div>
+					<div class="form-group">
+					    <label for="tipoConsulta">Tipo de Consulta:</label>
+					    <select class="form-control" id="tipoConsultaid" name="tipoConsultaid">
+					        <option value="1">Salud y Psicologia</option>
+					        <option value="2">Desonestidad Academica</option>
+					        <option value="3">Otros</option>
+					    </select>
+					</div>
+					
+					<!-- <input type="file" id="archivo" name="archivo" accept=".jpg, .jpeg, .png, .pdf" /> -->
+
+
+				    <div class="form-group">
+				        <label for="especialistaDescripcion">Descripción del Especialista:</label>
+				        <textarea class="form-control" id="especialistaDescripcion" name="especialistaDescripcion" th:field="*{especialistaDescripcion}" rows="4"></textarea>
+				    </div>
+			
+				    <div class="form-group">
+				        <label for="respuestaProblema">Respuesta al Problema:</label>
+				        <textarea class="form-control" id="respuestaProblema" name="respuestaProblema" th:field="*{respuestaProblema}" rows="4"></textarea>
+				    </div>
+				    <button type="submit" class="btn btn-primary">Guardar Coordinación</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Agrega enlaces a las bibliotecas de Bootstrap y Font Awesome al final del body -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

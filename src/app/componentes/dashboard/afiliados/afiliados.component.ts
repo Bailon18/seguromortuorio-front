@@ -64,7 +64,7 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
 
   abrirDialogoFamiliar(fila: any){
     this.dialog.open(CrearFamiliarComponent, {
-      width:'600px',
+      width:'700px',
       data:fila
       }).afterClosed().subscribe(valor =>{
         if (valor === 'guardar') {

@@ -193,6 +193,7 @@
             <input #imagenInputFile type="file"
                 accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 (change)="onFileSelected($event)" formControlName="archivo">
+
             <mat-error class="mensaje" *ngIf="socioForm.get('archivo')?.invalid && 
                 socioForm.get('archivo')?.errors && 
                 (socioForm.get('archivo')?.dirty || socioForm.get('archivo')?.touched)">
@@ -206,7 +207,7 @@
         <div class="col-6" *ngIf="!modoCrear">
             <div class="row">
                 <div class="col-12">
-                    <h5 class="text-center">Documento Socio</h5>
+                    <h5 class="text-start">Documento socio</h5>
                 </div>
                 <div class="col-6">
                     <!-- Botón para ver vista previa -->

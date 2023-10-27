@@ -29,8 +29,9 @@ export class CrearSocioComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
     const today = new Date();
-    today.setFullYear(today.getFullYear() - 18); 
+    today.setFullYear(today.getFullYear()); 
 
     this.socioForm = this.formbuilder.group({
       id: [''],
@@ -38,7 +39,7 @@ export class CrearSocioComponent implements OnInit {
       apellido: ['', Validators.required],
       documentoIdentidad: ['', Validators.required],
       fechaNacimiento: [today, [Validators.required, this.validarEdad(18)]],
-      edad: [18],
+      edad: [18, Validators.required],
       direccion: [''],
       telefono: [''],
       correoElectronico: ['', [Validators.required, Validators.email]],
@@ -73,10 +74,6 @@ export class CrearSocioComponent implements OnInit {
       this.tituloBoton = "Actualizar";
     }
 
-
-    
-    
-    
   }
 
   guardarSocio(){
@@ -144,7 +141,7 @@ export class CrearSocioComponent implements OnInit {
   }
   
   actualizarEdad(event: any) {
-    console.log("sdjksjs")
+
     const selectedDate = event.value;
     if (selectedDate) {
 

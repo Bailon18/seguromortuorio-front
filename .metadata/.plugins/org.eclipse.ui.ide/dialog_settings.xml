@@ -29,6 +29,11 @@
 		<item value="org.eclipse.tm.terminal.view.feature:11.2.0.202304132101"/>
 		<item value="org.eclipse.userstorage:1.2.0.v20210517-0327"/>
 		<item value="org.eclipse.wst.common.fproj:3.7.4.v202303031844"/>
+		<item value="org.eclipse.wst.json_ui.feature:1.1.10.v202305221615"/>
+		<item value="org.eclipse.wst.web_ui.feature:3.30.0.v202305230750"/>
+		<item value="org.eclipse.wst.xml.xpath2.processor.feature:2.0.400.v202304300753"/>
+		<item value="org.eclipse.wst.xml_ui.feature:3.30.0.v202305230750"/>
+		<item value="org.eclipse.wst.xsl.feature:1.3.1500.v202305221615"/>
 		<item value="org.jboss.tools.m2e.wro4j.feature:1.2.1.202301111328"/>
 		<item value="org.sonatype.m2e.egit.feature:0.17.0.202209271423"/>
 	</list>
@@ -38,6 +43,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\user\Documents\proyecto-funeraria\seguromortuorio-back\seguromortuorio-back"/>
 			<item value="C:\Users\user\Documents\proyecto-museo\museo-backend"/>
 		</list>
 	</section>
