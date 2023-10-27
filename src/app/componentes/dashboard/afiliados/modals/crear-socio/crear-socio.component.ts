@@ -15,38 +15,38 @@ export class CrearSocioComponent implements OnInit {
   socioForm: FormGroup;
   titulo: string = "Nuevo Socio";
   tituloBoton:string ="Guardar"
-  selectedFile?:  null;
+  selectedFile: File | null | undefined = null;
   nuevosocio?: Socio;
   modoCrear:boolean = true
-  
+
   @ViewChild('imagenInputFile', { static: false }) imagenInputFile?: ElementRef;
 
   constructor(
-    private formbuilder: FormBuilder, 
+    private formbuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public datoedit : any,
     private afiliacionServicio: AfiliadosService,
     private dialog : MatDialogRef<CrearSocioComponent>
   ) { }
 
   ngOnInit(): void {
-    
+
     const today = new Date();
-    today.setFullYear(today.getFullYear()); 
+    today.setFullYear(today.getFullYear());
 
     this.socioForm = this.formbuilder.group({
       id: [''],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      documentoIdentidad: ['', Validators.required],
+      documentoIdentidad: ['', [Validators.required, this.validarDocumentoIdentidad]],
       fechaNacimiento: [today, [Validators.required, this.validarEdad(18)]],
       edad: [18, Validators.required],
       direccion: [''],
-      telefono: [''],
+      telefono: ['',[Validators.required, this.validarTelefono]],
       correoElectronico: ['', [Validators.required, Validators.email]],
       contrasena: ['fondomortuorio23', [Validators.required, Validators.minLength(5)]],
       FechaInscripcion: [null],
       activo: [true, Validators.required],
-      archivo: [ '', Validators.required ]
+      archivo: [ this.selectedFile, Validators.required ]
     });
 
     if(this.datoedit){
@@ -67,6 +67,9 @@ export class CrearSocioComponent implements OnInit {
           archivo: u.archivo
         });
 
+        if (u.archivo) {
+          this.selectedFile = new File([u.archivo], 'archivo.pdf', { type: 'application/pdf' });
+        }
       });
 
       this.modoCrear = false;
@@ -76,9 +79,24 @@ export class CrearSocioComponent implements OnInit {
 
   }
 
+  validarDocumentoIdentidad(control:any) {
+    const documentoIdentidad = control.value;
+    if (!/^\d+$/.test(documentoIdentidad)) {
+      return { numeroInvalido: true };
+    }
+    return null;
+  }
+
+  validarTelefono(control:any) {
+    const telefono = control.value;
+    if (!/^\d+$/.test(telefono)) {
+      return { numeroInvalido: true };
+    }
+    return null;
+  }
+
   guardarSocio(){
-    if(!this.datoedit){
-      
+
       if(this.socioForm.valid){
 
         const formData = new FormData();
@@ -97,11 +115,14 @@ export class CrearSocioComponent implements OnInit {
           activo: this.socioForm.value.activo,
         };
 
+        if(this.datoedit){
+          nuevoSocio.id = this.datoedit.id;
+        }
 
         formData.append(
           'socio',
           new Blob([JSON.stringify(nuevoSocio)], { type: 'application/json' }));
-  
+
         if (this.selectedFile) {
           formData.append('archivo', this.selectedFile);
         }
@@ -111,13 +132,13 @@ export class CrearSocioComponent implements OnInit {
             swall.fire({
               icon: 'success',
               confirmButtonColor:'#0275d8',
-              html:  `Se registro correctamente la afiliacion al socio:  <strong>${this.socioForm.value['nombre']}</strong>`,
+              html:  `Se realizo la accion correctamente al socio:  <strong>${this.socioForm.value['nombre']}</strong>`,
             })
-        
+
           }
         )
       }
-    }
+
   }
 
   validarEdad(edadMinima: number) {
@@ -139,7 +160,7 @@ export class CrearSocioComponent implements OnInit {
       console.error("Error al seleccionar el archivo:", error);
     }
   }
-  
+
   actualizarEdad(event: any) {
 
     const selectedDate = event.value;
@@ -148,7 +169,7 @@ export class CrearSocioComponent implements OnInit {
       const today = new Date();
       const age = today.getFullYear() - selectedDate.getFullYear();
       console.log(age)
-      
+
       this.socioForm.get('edad')?.setValue(age);
     }
   }
@@ -163,14 +184,13 @@ export class CrearSocioComponent implements OnInit {
       }
       const byteArray = new Uint8Array(byteNumbers);
       const archivoBlob = new Blob([byteArray], { type: 'application/pdf' });
-  
+
       const archivoUrl = window.URL.createObjectURL(archivoBlob);
-  
-      // Abre una nueva ventana o pestaña para mostrar la vista previa del archivo
+
       window.open(archivoUrl, '_blank');
     }
   }
-  
+
   descargarArchivo() {
     const archivo = this.socioForm.get('archivo')?.value;
     if (archivo) {
@@ -181,7 +201,7 @@ export class CrearSocioComponent implements OnInit {
       }
       const byteArray = new Uint8Array(byteNumbers);
       const archivoBlob = new Blob([byteArray], { type: 'application/pdf' });
-  
+
       const url = window.URL.createObjectURL(archivoBlob);
       const a = document.createElement('a');
       a.href = url;
@@ -190,10 +210,41 @@ export class CrearSocioComponent implements OnInit {
       window.URL.revokeObjectURL(url);
     }
   }
-  
-  
-  
-  
-  
+
+  validarcorreo(event:any){
+
+    if (this.socioForm.controls['correoElectronico'].valid){
+
+      const correo = (event.target as HTMLInputElement).value;
+      this.afiliacionServicio.existsByCorreoElectronico(correo).subscribe(res => {
+        if(res){
+          this.socioForm.controls['correoElectronico'].setErrors({ invalid: 'Correo ya esta registrado' });
+        }else{
+          this.socioForm.controls['correoElectronico'].setErrors(null);
+        }
+      })
+
+    }
+  }
+
+  validardocumentoidentidad(event:any){
+
+    if (this.socioForm.controls['documentoIdentidad'].valid){
+
+      const documentoIdentidad = (event.target as HTMLInputElement).value;
+
+      this.afiliacionServicio.existsByDocumentoIdentidad(documentoIdentidad).subscribe(res => {
+        if(res){
+          this.socioForm.controls['documentoIdentidad'].setErrors({ invalid: 'Cedula ya esta registrado' });
+        }else{
+          this.socioForm.controls['documentoIdentidad'].setErrors(null);
+        }
+      })
+
+    }
+  }
+
+
+
 
 }

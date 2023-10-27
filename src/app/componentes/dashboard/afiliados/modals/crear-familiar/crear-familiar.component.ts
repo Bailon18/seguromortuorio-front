@@ -32,7 +32,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
   dataSource = new MatTableDataSource<Familiar>;
 
   constructor(
-    private formbuilder: FormBuilder, 
+    private formbuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public datoedit : any,
     private afiliacionServicio: AfiliadosService,
     private dialog : MatDialogRef<CrearFamiliarComponent>
@@ -41,7 +41,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
   ngOnInit(): void {
 
     const today = new Date();
-    today.setFullYear(today.getFullYear() - 18); 
+    today.setFullYear(today.getFullYear() - 18);
 
     this.familiaForm = this.formbuilder.group({
       id:[''],
@@ -53,7 +53,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       edad: [18, Validators.required],
       direccion: [''],
       telefono: [''],
-      archivo: ['', Validators.required], 
+      archivo: ['', Validators.required],
     });
 
     this.listarFamiliares();
@@ -87,7 +87,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
   resetearFormulario() {
     this.changeTab(0);
   }
-  
+
   nuevoFamiliarForm(){
     this.changeTab(1)
     this.modoCrear = true;
@@ -102,10 +102,38 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
     //this.modoCrear = true;
     this.tabGroup.selectedIndex = tabIndex;
   }
-  
 
-  eliminarFamiliar(fila: any){
 
+  eliminarFamiliar(fila: any) {
+    swall.fire({
+      html: '¿Estás seguro de que deseas eliminar a este familiar?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0275d8',
+      cancelButtonColor: '#d9534f',
+      confirmButtonText: 'Sí, eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        this.afiliacionServicio.eliminarFamiliar(fila.id).subscribe({
+          next: () => {
+            swall.fire({
+              icon: 'success',
+              confirmButtonColor: '#0275d8',
+              html: 'Se eliminó correctamente el familiar.'
+            });
+            this.listarFamiliares();
+          },
+          error: (err) => {
+            swall.fire({
+              icon: 'error',
+              confirmButtonColor: '#d9534f',
+              html: `Error al realizar la acción: <strong>${err.message}</strong>`
+            });
+          }
+        });
+      }
+    });
   }
 
   onFileSelected(event: any) {
@@ -129,13 +157,13 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       }
       const byteArray = new Uint8Array(byteNumbers);
       const archivoBlob = new Blob([byteArray], { type: 'application/pdf' });
-  
+
       const archivoUrl = window.URL.createObjectURL(archivoBlob);
-  
+
       window.open(archivoUrl, '_blank');
     }
   }
-  
+
   descargarArchivo() {
     const archivo = this.familiaForm.get('archivo')?.value;
     if (archivo) {
@@ -146,7 +174,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       }
       const byteArray = new Uint8Array(byteNumbers);
       const archivoBlob = new Blob([byteArray], { type: 'application/pdf' });
-  
+
       const url = window.URL.createObjectURL(archivoBlob);
       const a = document.createElement('a');
       a.href = url;
@@ -155,7 +183,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       window.URL.revokeObjectURL(url);
     }
   }
-  
+
   guardarFamiliar(){
 
     let tipo = "registró"
@@ -166,7 +194,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
 
       const socio = new Socio();
       socio.id = this.datoedit.id;
-  
+
       const nuevoFamiliar: Familiar = {
         nombre: this.familiaForm.value.nombre,
         apellido: this.familiaForm.value.apellido,
@@ -184,17 +212,17 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
         nuevoFamiliar.id = this.datoedit.id;
         tipo = "actualizó";
       }
-  
+
       console.log("nuevoFamiliar: ", nuevoFamiliar)
-  
+
       formData.append(
         'familiar',
         new Blob([JSON.stringify(nuevoFamiliar)], { type: 'application/json' }));
-  
+
       if (this.selectedFile) {
         formData.append('archivo', this.selectedFile);
       }
-  
+
       this.afiliacionServicio.guardarFamiliar(formData).subscribe(
         (usu) => {
           swall.fire({
@@ -215,7 +243,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       );
 
     }
-    
+
   }
 
   editarFamiliar(fila:any){
@@ -251,9 +279,25 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       const today = new Date();
       const age = today.getFullYear() - selectedDate.getFullYear();
       console.log(age)
-      
+
       this.familiaForm.get('edad')?.setValue(age);
     }
   }
 
+  validardocumentoidentidad(event:any){
+
+    if (this.familiaForm.controls['documentoIdentidad'].valid){
+
+      const documentoIdentidad = (event.target as HTMLInputElement).value;
+
+      this.afiliacionServicio.existsByDocumentoIdentidadFamiliar(documentoIdentidad).subscribe(res => {
+        if(res){
+          this.familiaForm.controls['documentoIdentidad'].setErrors({ invalid: 'Cedula ya esta registrado' });
+        }else{
+          this.familiaForm.controls['documentoIdentidad'].setErrors(null);
+        }
+      })
+
+    }
+  }
 }

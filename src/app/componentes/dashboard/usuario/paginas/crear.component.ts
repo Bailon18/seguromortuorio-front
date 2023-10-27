@@ -18,8 +18,8 @@ export class CrearComponent implements OnInit {
   usuarioForm: FormGroup
   titulo: string = "Nuevo Usuario";
   tituloBoton:string ="Guardar"
- 
-  constructor(private formbuilder: FormBuilder, 
+
+  constructor(private formbuilder: FormBuilder,
             private servicio: UsuarioService,
             @Inject(MAT_DIALOG_DATA) public datoedit : any,
             private dialog : MatDialogRef<CrearComponent>)
@@ -27,7 +27,7 @@ export class CrearComponent implements OnInit {
 
   ngOnInit(): void {
 
-   
+
     this.usuarioForm = this.formbuilder.group({
       id: [''],
       nombreUsuario: ['', Validators.required],
@@ -40,7 +40,7 @@ export class CrearComponent implements OnInit {
 
     if(this.datoedit){
 
-      this.servicio.buscarUsuario(this.datoedit.id).subscribe(u => 
+      this.servicio.buscarUsuario(this.datoedit.id).subscribe(u =>
         {
           this.usuarioForm.controls['id'].setValue(u.id)
           this.usuarioForm.controls['nombreUsuario'].setValue(u.nombreUsuario);
@@ -63,9 +63,9 @@ export class CrearComponent implements OnInit {
   guardarUsuario(){
 
     if(!this.datoedit){
-    
+
         if(this.usuarioForm.valid){
-    
+
           this.servicio.guardarUsuarioServi(this.usuarioForm.value).subscribe( usu => {
               this.dialog.close("guardar")
               swall.fire({
@@ -73,7 +73,7 @@ export class CrearComponent implements OnInit {
                 confirmButtonColor:'#0275d8',
                 html:  `Se registro correctamente al usuario:  <strong>${this.usuarioForm.value['nombreUsuario']}</strong>`,
               })
-          
+
             }
           )
         }
@@ -84,7 +84,7 @@ export class CrearComponent implements OnInit {
   }
 
   actualizarUsuario(){
-    
+
     this.servicio.guardarUsuarioServi(this.usuarioForm.value).subscribe(usuario => {
       this.dialog.close("actualizar");
       swall.fire({
@@ -100,11 +100,11 @@ export class CrearComponent implements OnInit {
   validarcorreo(event:any){
 
     if (this.usuarioForm.controls['correoElectronico'].valid){
-      
+
       const correo = (event.target as HTMLInputElement).value;
 
       this.servicio.validarcorreo(correo).subscribe(res => {
-        if(res){
+        if(!res){
           this.usuarioForm.controls['correoElectronico'].setErrors({ invalid: 'Correo ya esta registrado' });
         }else{
           this.usuarioForm.controls['correoElectronico'].setErrors(null);

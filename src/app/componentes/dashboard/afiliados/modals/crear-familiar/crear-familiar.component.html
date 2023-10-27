@@ -33,19 +33,19 @@
                           </div>
                           <div class="mat-elevation-z8">
                               <table mat-table [dataSource]="dataSource">
- 
-                            
+
+
                                   <ng-container matColumnDef="NOMBRE">
                                       <th mat-header-cell *matHeaderCellDef> Nombres </th>
                                       <td mat-cell *matCellDef="let fila"> {{fila.nombre}} {{fila.apellido}} </td>
                                   </ng-container>
 
-      
+
                                   <ng-container matColumnDef="CEDULA">
                                       <th mat-header-cell *matHeaderCellDef> Cedula </th>
                                       <td mat-cell *matCellDef="let fila"> {{fila.documentoIdentidad}} </td>
                                   </ng-container>
-                                  
+
                                   <ng-container matColumnDef="PARENTESCO">
                                       <th mat-header-cell *matHeaderCellDef> Parentesco </th>
                                       <td mat-cell *matCellDef="let fila"> {{fila.tipoParentesco}} </td>
@@ -54,14 +54,14 @@
                                   <ng-container matColumnDef="ACCIONES">
                                       <th mat-header-cell *matHeaderCellDef> Acciones </th>
                                       <td mat-cell *matCellDef="let fila">
-                                          <a class="pointer iconosAccion" matTooltip="Editar Socio" (click)="editarFamiliar(fila)"><mat-icon class="success-icon">edit</mat-icon></a>
-                                          <a class="pointer iconosAccion" matTooltip="{{ fila.activo ? 'Inabilitar Socio' : 'Habilitar Socio' }}" (click)="eliminarFamiliar(fila)">
-                                              <mat-icon class="danger-icon">{{ fila.activo ? 'not_interested' : 'done' }}</mat-icon>
+                                          <a class="pointer iconosAccion" matTooltip="Editar familiar" (click)="editarFamiliar(fila)"><mat-icon class="success-icon">edit</mat-icon></a>
+                                          <a class="pointer iconosAccion" matTooltip="Eliminar familiar" (click)="eliminarFamiliar(fila)">
+                                              <mat-icon class="danger-icon">delete</mat-icon>
                                           </a>
                                       </td>
-                                      
+
                                   </ng-container>
-                              
+
                                   <tr mat-header-row *matHeaderRowDef="columnas"></tr>
                                   <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
                               </table>
@@ -75,7 +75,7 @@
           </div>
       </mat-card>
     </mat-tab>
-  
+
     <!-- Agregar o editar Familiar -->
     <mat-tab label=" ">
       <h1 mat-dialog-title style="font-weight: 500;">{{titulo}}</h1>
@@ -87,8 +87,8 @@
                   <mat-form-field appearance="fill">
                       <mat-label>Nombre</mat-label>
                       <input matInput formControlName="nombre">
-                      <mat-error class="mensaje" *ngIf="familiaForm.get('nombre')?.invalid && 
-                      familiaForm.get('nombre')?.errors && 
+                      <mat-error class="mensaje" *ngIf="familiaForm.get('nombre')?.invalid &&
+                      familiaForm.get('nombre')?.errors &&
                       (familiaForm.get('nombre')?.dirty || familiaForm.get('nombre')?.touched)">
                           <small class="text-danger" *ngIf="familiaForm.get('nombre')?.hasError('required')">
                               El campo nombre es requerido
@@ -96,14 +96,14 @@
                       </mat-error>
                   </mat-form-field>
               </div>
-      
+
               <!-- APELLIDOS -->
               <div class="col-6">
                   <mat-form-field appearance="fill">
                       <mat-label>Apellidos</mat-label>
                       <input matInput formControlName="apellido">
-                      <mat-error class="mensaje" *ngIf="familiaForm.get('apellido')?.invalid && 
-                      familiaForm.get('apellido')?.errors && 
+                      <mat-error class="mensaje" *ngIf="familiaForm.get('apellido')?.invalid &&
+                      familiaForm.get('apellido')?.errors &&
                       (familiaForm.get('apellido')?.dirty || familiaForm.get('apellido')?.touched)">
                           <small class="text-danger" *ngIf="familiaForm.get('apellido')?.hasError('required')">
                               El campo apellido es requerido
@@ -112,23 +112,26 @@
                   </mat-form-field>
               </div>
           </div>
-      
+
           <div class="row mb-3">
               <!-- DOCUMENTO DE IDENTIDAD -->
               <div class="col-6">
                   <mat-form-field appearance="fill">
                       <mat-label>Cédula de ciudadanía</mat-label>
-                      <input matInput formControlName="documentoIdentidad">
-                      <mat-error class="mensaje" *ngIf="familiaForm.get('documentoIdentidad')?.invalid && 
-                      familiaForm.get('documentoIdentidad')?.errors && 
+                      <input matInput formControlName="documentoIdentidad" (keyup)="validardocumentoidentidad($event)">
+                      <mat-error class="mensaje" *ngIf="familiaForm.get('documentoIdentidad')?.invalid &&
+                      familiaForm.get('documentoIdentidad')?.errors &&
                       (familiaForm.get('documentoIdentidad')?.dirty || familiaForm.get('documentoIdentidad')?.touched)">
                           <small class="text-danger" *ngIf="familiaForm.get('documentoIdentidad')?.hasError('required')">
                               El campo C. I. es requerido
                           </small>
+                          <small class="text-danger" *ngIf="familiaForm.get('documentoIdentidad')?.hasError('invalid')">
+                            Cedula ya se  encuentra registrado .
+                        </small>
                       </mat-error>
                   </mat-form-field>
               </div>
-      
+
               <!-- FECHA DE NACIMIENTO -->
               <div class="col-6">
                   <mat-form-field appearance="fill">
@@ -137,25 +140,25 @@
                           (dateChange)="actualizarEdad($event)">
                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
-                      <mat-error class="mensaje" *ngIf="familiaForm.get('fechaNacimiento')?.invalid && 
-                      familiaForm.get('fechaNacimiento')?.errors && 
+                      <mat-error class="mensaje" *ngIf="familiaForm.get('fechaNacimiento')?.invalid &&
+                      familiaForm.get('fechaNacimiento')?.errors &&
                       (familiaForm.get('fechaNacimiento')?.dirty || familiaForm.get('fechaNacimiento')?.touched)">
                           <small class="text-danger" *ngIf="familiaForm.get('fechaNacimiento')?.hasError('required')">
                               El campo fecha nacimiento es requerido
                           </small>
-                          <small class="text-danger" *ngIf="familiaForm.get('fechaNacimiento')?.hasError('edadInvalida')">
+                          <!-- <small class="text-danger" *ngIf="familiaForm.get('fechaNacimiento')?.hasError('edadInvalida')">
                               Debes ser mayor de 18 años para registrarte.
-                          </small>
+                          </small> -->
                       </mat-error>
                   </mat-form-field>
               </div>
           </div>
-      
+
           <div class="row mb-3">
               <!-- CORREO  -->
               <div class="col-6">
                 <div class="row">
-    
+
                     <!-- TELÉFONO -->
                     <div class="col-7">
                         <mat-form-field appearance="fill">
@@ -163,14 +166,14 @@
                             <input matInput formControlName="telefono">
                         </mat-form-field>
                     </div>
-    
+
                     <!-- EDAD -->
                     <div class="col-5">
                         <mat-form-field appearance="fill">
                             <mat-label>Edad</mat-label>
                             <input type="number" matInput formControlName="edad">
-                            <mat-error class="mensaje" *ngIf="familiaForm.get('edad')?.invalid && 
-                            familiaForm.get('edad')?.errors && 
+                            <mat-error class="mensaje" *ngIf="familiaForm.get('edad')?.invalid &&
+                            familiaForm.get('edad')?.errors &&
                             (familiaForm.get('edad')?.dirty || familiaForm.get('edad')?.touched)">
                                 <small class="text-danger" *ngIf="familiaForm.get('edad')?.hasError('required')">
                                     El campo edad es requerido
@@ -180,7 +183,7 @@
                     </div>
                 </div>
               </div>
-      
+
               <!-- DIRECCIÓN -->
               <div class="col-6">
                   <mat-form-field appearance="fill">
@@ -189,7 +192,7 @@
                   </mat-form-field>
               </div>
           </div>
-      
+
           <div class="row mb-3">
 
               <!-- ARCHIVO (solo en modo crear) -->
@@ -198,15 +201,15 @@
                   <input #imagenInputFile type="file"
                       accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                       (change)="onFileSelected($event)" formControlName="archivo">
-                  <mat-error class="mensaje" *ngIf="familiaForm.get('archivo')?.invalid && 
-                      familiaForm.get('archivo')?.errors && 
+                  <mat-error class="mensaje" *ngIf="familiaForm.get('archivo')?.invalid &&
+                      familiaForm.get('archivo')?.errors &&
                       (familiaForm.get('archivo')?.dirty || familiaForm.get('archivo')?.touched)">
                       <small class="text-danger" *ngIf="familiaForm.get('archivo')?.hasError('required')">
                           El campo documento/archivo es requerido
                       </small>
                   </mat-error>
               </div>
-      
+
               <!-- Botón para descargar archivo (solo en modo editar) -->
               <div class="col-6" *ngIf="!modoCrear">
                   <div class="row">
@@ -229,11 +232,11 @@
                       </div>
                   </div>
               </div>
-                  
-      
+
+
               <div class="col-6">
                   <div class="row">
-      
+
                       <!-- PARENTESCO -->
                       <div class="col-7">
                           <mat-form-field appearance="fill">
@@ -243,16 +246,16 @@
                                 <mat-option value='Hija(o)'>Hija(o)</mat-option>
                                 <mat-option value='Carga(a)'>Carga</mat-option>
                             </mat-select>
-                            <mat-error class="mensaje" *ngIf="familiaForm.get('tipoParentesco')?.invalid && 
-                            familiaForm.get('tipoParentesco')?.errors && 
+                            <mat-error class="mensaje" *ngIf="familiaForm.get('tipoParentesco')?.invalid &&
+                            familiaForm.get('tipoParentesco')?.errors &&
                             (familiaForm.get('tipoParentesco')?.dirty || familiaForm.get('tipoParentesco')?.touched)">
                                 <small class="text-danger" *ngIf="familiaForm.get('tipoParentesco')?.hasError('required')">
-                                    El campo estado es requerido
+                                    El campo parentesco es requerido
                                 </small>
                             </mat-error>
                         </mat-form-field>
                       </div>
-      
+
                       <!-- ESTADO -->
                       <div class="col-5">
 
@@ -260,7 +263,6 @@
                   </div>
               </div>
           </div>
-      
 
           <!-- Botones -->
           <div class="row mb-2">
@@ -272,13 +274,4 @@
           </div>
       </form>
     </mat-tab>
-  
-    <!-- Pestaña 3: Editar Familiar -->
-    <mat-tab label=" ">
-      <h1 mat-dialog-title style="font-weight: 500;">Gestion Familiar de socio:</h1>
-      <!-- Contenido de la pestaña 3: Formulario para editar un familiar existente -->
-      <!-- Aquí puedes colocar el formulario para editar familiares -->
-      <button (click)="changeTab(2)">Volver a la Tabla de familiares</button>
-    </mat-tab>
   </mat-tab-group>
-  

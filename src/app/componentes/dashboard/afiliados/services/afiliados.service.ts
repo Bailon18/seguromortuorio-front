@@ -33,13 +33,24 @@ export class AfiliadosService {
     return this.http.get<Familiar[]>(`${baseUrl}/apifm/familiares/por-socio/${id}`);
   }
 
-  // cambiarEstado(id: number, estado: boolean): Observable<any> {
-  //   return this.http.post(`${baseUrl}/apifm/usuarios/cambiarEstado/${id}/${estado}`, {});
-  // }
+  existsByCorreoElectronico(correoElectronico: string): Observable<boolean> {
+    const url = `${baseUrl}/apifm/socios/exists-correo?correoElectronico=${correoElectronico}`;;
+    return this.http.get<boolean>(url);
+  }
 
-  // validarcorreo(correo: string): Observable<boolean>{
-  //   return this.http.get<boolean>(`${baseUrl}/apifm/usuarios/existe-correo?correoElectronico=${correo}`);
-  // }
+  existsByDocumentoIdentidad(documentoIdentidad: string): Observable<boolean> {
+    const url = `${baseUrl}/apifm/socios/exists-documento?documentoIdentidad=${documentoIdentidad}`;
+    return this.http.get<boolean>(url);
+  }
 
+  existsByDocumentoIdentidadFamiliar(documentoIdentidad: string): Observable<boolean> {
+    const url = `${baseUrl}/apifm/familiares/exists-documento?documentoIdentidad=${documentoIdentidad}`;
+    return this.http.get<boolean>(url);
+  }
+
+  eliminarFamiliar(familiarId: number): Observable<void> {
+    const url = `${baseUrl}/apifm/familiares/${familiarId}`;
+    return this.http.delete<void>(url);
+  }
 
 }
