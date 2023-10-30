@@ -119,15 +119,8 @@
                   <mat-form-field appearance="fill">
                       <mat-label>Cédula de ciudadanía</mat-label>
                       <input matInput formControlName="documentoIdentidad" (keyup)="validardocumentoidentidad($event)">
-                      <mat-error class="mensaje" *ngIf="familiaForm.get('documentoIdentidad')?.invalid &&
-                      familiaForm.get('documentoIdentidad')?.errors &&
-                      (familiaForm.get('documentoIdentidad')?.dirty || familiaForm.get('documentoIdentidad')?.touched)">
-                          <small class="text-danger" *ngIf="familiaForm.get('documentoIdentidad')?.hasError('required')">
-                              El campo C. I. es requerido
-                          </small>
-                          <small class="text-danger" *ngIf="familiaForm.get('documentoIdentidad')?.hasError('invalid')">
-                            Cedula ya se  encuentra registrado .
-                        </small>
+                      <mat-error *ngIf="isValidField('documentoIdentidad')">
+                        {{ getFieldError('documentoIdentidad') }}
                       </mat-error>
                   </mat-form-field>
               </div>
@@ -140,15 +133,8 @@
                           (dateChange)="actualizarEdad($event)">
                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
-                      <mat-error class="mensaje" *ngIf="familiaForm.get('fechaNacimiento')?.invalid &&
-                      familiaForm.get('fechaNacimiento')?.errors &&
-                      (familiaForm.get('fechaNacimiento')?.dirty || familiaForm.get('fechaNacimiento')?.touched)">
-                          <small class="text-danger" *ngIf="familiaForm.get('fechaNacimiento')?.hasError('required')">
-                              El campo fecha nacimiento es requerido
-                          </small>
-                          <!-- <small class="text-danger" *ngIf="familiaForm.get('fechaNacimiento')?.hasError('edadInvalida')">
-                              Debes ser mayor de 18 años para registrarte.
-                          </small> -->
+                      <mat-error *ngIf="isValidField('fechaNacimiento')">
+                        {{ getFieldError('fechaNacimiento') }}
                       </mat-error>
                   </mat-form-field>
               </div>
@@ -172,12 +158,8 @@
                         <mat-form-field appearance="fill">
                             <mat-label>Edad</mat-label>
                             <input type="number" matInput formControlName="edad">
-                            <mat-error class="mensaje" *ngIf="familiaForm.get('edad')?.invalid &&
-                            familiaForm.get('edad')?.errors &&
-                            (familiaForm.get('edad')?.dirty || familiaForm.get('edad')?.touched)">
-                                <small class="text-danger" *ngIf="familiaForm.get('edad')?.hasError('required')">
-                                    El campo edad es requerido
-                                </small>
+                            <mat-error *ngIf="isValidField('edad')">
+                                {{ getFieldError('edad') }}
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -194,20 +176,16 @@
           </div>
 
           <div class="row mb-3">
-
               <!-- ARCHIVO (solo en modo crear) -->
               <div class="col-6" *ngIf="modoCrear">
                   <mat-label>Documento/Archivo</mat-label>
                   <input #imagenInputFile type="file"
-                      accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                      (change)="onFileSelected($event)" formControlName="archivo">
-                  <mat-error class="mensaje" *ngIf="familiaForm.get('archivo')?.invalid &&
-                      familiaForm.get('archivo')?.errors &&
-                      (familiaForm.get('archivo')?.dirty || familiaForm.get('archivo')?.touched)">
-                      <small class="text-danger" *ngIf="familiaForm.get('archivo')?.hasError('required')">
-                          El campo documento/archivo es requerido
-                      </small>
-                  </mat-error>
+                  accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  (change)="onFileSelected($event)" formControlName="archivo">
+                      <mat-error *ngIf="isValidField('archivo')">
+                        {{ getFieldError('archivo') }}
+                    </mat-error>
+                  
               </div>
 
               <!-- Botón para descargar archivo (solo en modo editar) -->
@@ -246,12 +224,8 @@
                                 <mat-option value='Hija(o)'>Hija(o)</mat-option>
                                 <mat-option value='Carga(a)'>Carga</mat-option>
                             </mat-select>
-                            <mat-error class="mensaje" *ngIf="familiaForm.get('tipoParentesco')?.invalid &&
-                            familiaForm.get('tipoParentesco')?.errors &&
-                            (familiaForm.get('tipoParentesco')?.dirty || familiaForm.get('tipoParentesco')?.touched)">
-                                <small class="text-danger" *ngIf="familiaForm.get('tipoParentesco')?.hasError('required')">
-                                    El campo parentesco es requerido
-                                </small>
+                            <mat-error *ngIf="isValidField('tipoParentesco')">
+                                {{ getFieldError('tipoParentesco') }}
                             </mat-error>
                         </mat-form-field>
                       </div>

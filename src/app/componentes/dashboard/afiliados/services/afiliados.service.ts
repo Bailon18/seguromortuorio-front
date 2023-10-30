@@ -53,4 +53,7 @@ export class AfiliadosService {
     return this.http.delete<void>(url);
   }
 
+  buscarFamiliarId(id:number): Observable<Familiar>{
+    return this.http.get<Familiar>(`${baseUrl}/apifm/familiares/${id}`);
+  }
 }

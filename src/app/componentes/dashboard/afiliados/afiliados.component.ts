@@ -46,7 +46,7 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
   listarAfiliaciones(){
     return this.servicioAfiliacion.getAfiliaciones().subscribe({
       next: res => {
-        console.log(res)
+        console.log("se actualizo "+res)
         let filtrado = res.filter(u => u.activo == true)
         this.dataSource = new MatTableDataSource(filtrado)
         this.dataSource.paginator = this.paginator;
@@ -67,9 +67,7 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
       width:'700px',
       data:fila
       }).afterClosed().subscribe(valor =>{
-        if (valor === 'guardar') {
-          this.listarAfiliaciones();
-        }
+        this.listarAfiliaciones();
     });
   }
 
@@ -77,9 +75,7 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
     this.dialog.open(CrearSocioComponent, {
       width:'600px',
       }).afterClosed().subscribe(valor =>{
-        if (valor === 'guardar') {
-          this.listarAfiliaciones();
-        }
+        this.listarAfiliaciones();
     });
   }
 
@@ -88,9 +84,7 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
       width:'600px',
       data:fila
       }).afterClosed().subscribe(valor =>{
-        if (valor === 'actualizar') {
           this.listarAfiliaciones();
-        }
     });
   }
 

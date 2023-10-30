@@ -18,7 +18,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
   familiaForm: FormGroup;
   titulo: string = "Nuevo Familia";
   tituloBoton:string ="Guardar"
-  selectedFile?:  null;
+  selectedFile: File | null | undefined = null;
   nuevofamilia?: Familiar;
   modoCrear:boolean = true
 
@@ -53,7 +53,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       edad: [18, Validators.required],
       direccion: [''],
       telefono: [''],
-      archivo: ['', Validators.required],
+      archivo: [this.selectedFile, Validators.required],
     });
 
     this.listarFamiliares();
@@ -254,21 +254,28 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
 
     this.changeTab(1)
 
-    this.familiaForm.patchValue({
-      id: fila.id,
-      nombre: fila.nombre,
-      apellido: fila.apellido,
-      documentoIdentidad: fila.documentoIdentidad,
-      fechaNacimiento: new Date(fila.fechaNacimiento),
-      edad: fila.edad,
-      direccion: fila.direccion,
-      telefono: fila.telefono,
-      tipoParentesco: fila.tipoParentesco,
-      archivo: fila.archivo
+    console.log("ID: "+ fila.id)
+
+    this.afiliacionServicio.buscarFamiliarId(fila.id).subscribe( res => {
+      this.familiaForm.patchValue({
+        id: res.id,
+        nombre: res.nombre,
+        apellido: res.apellido,
+        documentoIdentidad: res.documentoIdentidad,
+        fechaNacimiento: new Date(res.fechaNacimiento),
+        edad: res.edad,
+        direccion: res.direccion,
+        telefono: res.telefono,
+        tipoParentesco: res.tipoParentesco,
+        archivo: res.archivo
+      })
+
+      if (res.archivo) {
+        this.selectedFile = new File([res.archivo], 'archivo.pdf', { type: 'application/pdf' });
+      }
     })
 
-
-
+    
   }
 
   actualizarEdad(event: any) {
@@ -292,12 +299,45 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
 
       this.afiliacionServicio.existsByDocumentoIdentidadFamiliar(documentoIdentidad).subscribe(res => {
         if(res){
-          this.familiaForm.controls['documentoIdentidad'].setErrors({ invalid: 'Cedula ya esta registrado' });
+          this.familiaForm.controls['documentoIdentidad'].setErrors({ documentoInvalid: true});
         }else{
           this.familiaForm.controls['documentoIdentidad'].setErrors(null);
         }
       })
 
     }
+  }
+
+  isValidField(field: string): boolean | null {
+    return (
+      this.familiaForm.controls[field].errors &&
+      this.familiaForm.controls[field].touched
+    );
+  }
+
+  getFieldError(field: string): string | null {
+    if (!this.familiaForm.controls[field]) return null;
+
+    const errors = this.familiaForm.controls[field].errors || {};
+
+    for (const key of Object.keys(errors)) {
+      switch (key) {
+        case 'required':
+          return `${field} es requerido`;
+        
+        case 'numeroInvalido':
+          return `${field} tiene que ser númerico `;
+
+        case 'minLength':
+          return `${field} minímo 5 digitos`;
+
+        case 'documentoInvalid':
+          return `Cedula ya esta registrado`;
+
+        case 'correoInvalid':
+            return `Correo ya esta registrado`;
+      }
+    }
+    return null;
   }
 }

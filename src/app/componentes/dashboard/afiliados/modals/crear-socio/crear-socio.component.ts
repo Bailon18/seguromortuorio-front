@@ -40,11 +40,11 @@ export class CrearSocioComponent implements OnInit {
       documentoIdentidad: ['', [Validators.required, this.validarDocumentoIdentidad]],
       fechaNacimiento: [today, [Validators.required, this.validarEdad(18)]],
       edad: [18, Validators.required],
-      direccion: [''],
+      direccion: ['',Validators.required],
       telefono: ['',[Validators.required, this.validarTelefono]],
       correoElectronico: ['', [Validators.required, Validators.email]],
       contrasena: ['fondomortuorio23', [Validators.required, Validators.minLength(5)]],
-      FechaInscripcion: [null],
+      FechaInscripcion: [null, Validators.required],
       activo: [true, Validators.required],
       archivo: [ this.selectedFile, Validators.required ]
     });
@@ -134,7 +134,7 @@ export class CrearSocioComponent implements OnInit {
               confirmButtonColor:'#0275d8',
               html:  `Se realizo la accion correctamente al socio:  <strong>${this.socioForm.value['nombre']}</strong>`,
             })
-
+            
           }
         )
       }
@@ -218,7 +218,7 @@ export class CrearSocioComponent implements OnInit {
       const correo = (event.target as HTMLInputElement).value;
       this.afiliacionServicio.existsByCorreoElectronico(correo).subscribe(res => {
         if(res){
-          this.socioForm.controls['correoElectronico'].setErrors({ invalid: 'Correo ya esta registrado' });
+          this.socioForm.controls['correoElectronico'].setErrors({ correoInvalid: 'Correo ya esta registrado' });
         }else{
           this.socioForm.controls['correoElectronico'].setErrors(null);
         }
@@ -235,7 +235,7 @@ export class CrearSocioComponent implements OnInit {
 
       this.afiliacionServicio.existsByDocumentoIdentidad(documentoIdentidad).subscribe(res => {
         if(res){
-          this.socioForm.controls['documentoIdentidad'].setErrors({ invalid: 'Cedula ya esta registrado' });
+          this.socioForm.controls['documentoIdentidad'].setErrors({ documentoInvalid: true});
         }else{
           this.socioForm.controls['documentoIdentidad'].setErrors(null);
         }
@@ -244,6 +244,44 @@ export class CrearSocioComponent implements OnInit {
     }
   }
 
+  isValidField(field: string): boolean | null {
+    return (
+      this.socioForm.controls[field].errors &&
+      this.socioForm.controls[field].touched
+    );
+  }
+
+  getFieldError(field: string): string | null {
+    if (!this.socioForm.controls[field]) return null;
+
+    const errors = this.socioForm.controls[field].errors || {};
+
+    for (const key of Object.keys(errors)) {
+      switch (key) {
+        case 'required':
+          return `${field} es requerido`;
+        
+        case 'numeroInvalido':
+          return `${field} tiene que ser númerico `;
+
+        case 'edadInvalida':
+          return `${field} tiene que ser mayor  18`;
+
+        case 'email':
+          return `${field} no tiene el formato correcto`;
+
+        case 'minLength':
+          return `${field} minímo 5 digitos`;
+
+        case 'documentoInvalid':
+          return `Cedula ya esta registrado`;
+
+        case 'correoInvalid':
+            return `Correo ya esta registrado`;
+      }
+    }
+    return null;
+  }
 
 
 

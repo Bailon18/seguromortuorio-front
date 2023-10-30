@@ -8,12 +8,8 @@
             <mat-form-field appearance="fill">
                 <mat-label>Nombre</mat-label>
                 <input matInput formControlName="nombre">
-                <mat-error class="mensaje" *ngIf="socioForm.get('nombre')?.invalid &&
-                socioForm.get('nombre')?.errors &&
-                (socioForm.get('nombre')?.dirty || socioForm.get('nombre')?.touched)">
-                    <small class="text-danger" *ngIf="socioForm.get('nombre')?.hasError('required')">
-                        El campo nombre es requerido
-                    </small>
+                <mat-error *ngIf="isValidField('nombre')">
+                    {{ getFieldError('nombre') }}
                 </mat-error>
             </mat-form-field>
         </div>
@@ -23,12 +19,8 @@
             <mat-form-field appearance="fill">
                 <mat-label>Apellidos</mat-label>
                 <input matInput formControlName="apellido">
-                <mat-error class="mensaje" *ngIf="socioForm.get('apellido')?.invalid &&
-                socioForm.get('apellido')?.errors &&
-                (socioForm.get('apellido')?.dirty || socioForm.get('apellido')?.touched)">
-                    <small class="text-danger" *ngIf="socioForm.get('apellido')?.hasError('required')">
-                        El campo apellido es requerido
-                    </small>
+                <mat-error *ngIf="isValidField('apellido')">
+                    {{ getFieldError('apellido') }}
                 </mat-error>
             </mat-form-field>
         </div>
@@ -40,18 +32,8 @@
             <mat-form-field appearance="fill">
                 <mat-label>Cédula de ciudadanía</mat-label>
                 <input matInput formControlName="documentoIdentidad" (keyup)="validardocumentoidentidad($event)">
-                <mat-error class="mensaje" *ngIf="socioForm.get('documentoIdentidad')?.invalid &&
-                socioForm.get('documentoIdentidad')?.errors &&
-                (socioForm.get('documentoIdentidad')?.dirty || socioForm.get('documentoIdentidad')?.touched)">
-                    <small class="text-danger" *ngIf="socioForm.get('documentoIdentidad')?.hasError('required')">
-                        El campo C. I. es requerido
-                    </small>
-                    <small class="text-danger" *ngIf="socioForm.get('documentoIdentidad')?.hasError('invalid')">
-                      Cedula ya se  encuentra registrado .
-                    </small>
-                    <small class="text-danger" *ngIf="socioForm.get('documentoIdentidad')?.hasError('numeroInvalido')">
-                      El C. I. debe contener solo números.
-                    </small>
+                <mat-error *ngIf="isValidField('documentoIdentidad')">
+                    {{ getFieldError('documentoIdentidad') }}
                 </mat-error>
             </mat-form-field>
         </div>
@@ -64,15 +46,8 @@
                     (dateChange)="actualizarEdad($event)">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-error class="mensaje" *ngIf="socioForm.get('fechaNacimiento')?.invalid &&
-                socioForm.get('fechaNacimiento')?.errors &&
-                (socioForm.get('fechaNacimiento')?.dirty || socioForm.get('fechaNacimiento')?.touched)">
-                    <small class="text-danger" *ngIf="socioForm.get('fechaNacimiento')?.hasError('required')">
-                        El campo fecha nacimiento es requerido
-                    </small>
-                    <small class="text-danger" *ngIf="socioForm.get('fechaNacimiento')?.hasError('edadInvalida')">
-                        Debes ser mayor de 18 años para registrarte.
-                    </small>
+                <mat-error *ngIf="isValidField('fechaNacimiento')">
+                    {{ getFieldError('fechaNacimiento') }}
                 </mat-error>
             </mat-form-field>
         </div>
@@ -84,18 +59,8 @@
             <mat-form-field appearance="fill">
                 <mat-label>Correo Electrónico</mat-label>
                 <input type="email" matInput formControlName="correoElectronico" (keyup)="validarcorreo($event)">
-                <mat-error class="mensaje" *ngIf="socioForm.get('correoElectronico')?.invalid &&
-                socioForm.get('correoElectronico')?.errors &&
-                (socioForm.get('correoElectronico')?.dirty || socioForm.get('correoElectronico')?.touched)">
-                    <small class="text-danger" *ngIf="socioForm.get('correoElectronico')?.hasError('required')">
-                        El campo correo electrónico es requerido
-                    </small>
-                    <small class="text-danger" *ngIf="socioForm.get('correoElectronico')?.hasError('email')">
-                        El formato del correo no es válido
-                    </small>
-                    <small class="text-danger" *ngIf="socioForm.get('correoElectronico')?.hasError('invalid')">
-                      El correo ya se encuentra registrado .
-                  </small>
+                <mat-error *ngIf="isValidField('correoElectronico')">
+                    {{ getFieldError('correoElectronico') }}
                 </mat-error>
             </mat-form-field>
         </div>
@@ -105,12 +70,8 @@
             <mat-form-field appearance="fill">
                 <mat-label>Dirección</mat-label>
                 <input matInput formControlName="direccion">
-                <mat-error class="mensaje" *ngIf="socioForm.get('direccion')?.invalid &&
-                socioForm.get('direccion')?.errors &&
-                (socioForm.get('direccion')?.dirty || socioForm.get('direccion')?.touched)">
-                    <small class="text-danger" *ngIf="socioForm.get('direccion')?.hasError('required')">
-                        El campo dirección es requerido
-                    </small>
+                <mat-error *ngIf="isValidField('direccion')">
+                    {{ getFieldError('direccion') }}
                 </mat-error>
             </mat-form-field>
         </div>
@@ -125,15 +86,8 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Teléfono</mat-label>
                         <input matInput formControlName="telefono">
-                        <mat-error class="mensaje" *ngIf="socioForm.get('telefono')?.invalid &&
-                        socioForm.get('telefono')?.errors &&
-                        (socioForm.get('telefono')?.dirty || socioForm.get('telefono')?.touched)">
-                            <small class="text-danger" *ngIf="socioForm.get('telefono')?.hasError('required')">
-                                El campo teléfono es requerido
-                            </small>
-                            <small class="text-danger" *ngIf="socioForm.get('telefono')?.hasError('numeroInvalido')">
-                                 solo números.
-                            </small>
+                        <mat-error *ngIf="isValidField('telefono')">
+                            {{ getFieldError('telefono') }}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -143,12 +97,8 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Edad</mat-label>
                         <input type="number" matInput formControlName="edad">
-                        <mat-error class="mensaje" *ngIf="socioForm.get('edad')?.invalid &&
-                        socioForm.get('edad')?.errors &&
-                        (socioForm.get('edad')?.dirty || socioForm.get('edad')?.touched)">
-                            <small class="text-danger" *ngIf="socioForm.get('edad')?.hasError('required')">
-                                El campo edad es requerido
-                            </small>
+                        <mat-error *ngIf="isValidField('edad')">
+                            {{ getFieldError('edad') }}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -167,12 +117,8 @@
                         <mat-datepicker-toggle matSuffix [for]="dp">
                         </mat-datepicker-toggle>
                         <mat-datepicker #dp></mat-datepicker>
-                        <mat-error class="mensaje" *ngIf="socioForm.get('FechaInscripcion')?.invalid &&
-                        socioForm.get('FechaInscripcion')?.errors &&
-                        (socioForm.get('FechaInscripcion')?.dirty || socioForm.get('FechaInscripcion')?.touched)">
-                            <small class="text-danger" *ngIf="socioForm.get('FechaInscripcion')?.hasError('required')">
-                                El campo fecha de inscripción es requerido
-                            </small>
+                        <mat-error *ngIf="isValidField('FechaInscripcion')">
+                            {{ getFieldError('FechaInscripcion') }}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -185,12 +131,8 @@
                             <mat-option [value]=true>Activo</mat-option>
                             <mat-option [value]=false>Inactivo</mat-option>
                         </mat-select>
-                        <mat-error class="mensaje" *ngIf="socioForm.get('activo')?.invalid &&
-                        socioForm.get('activo')?.errors &&
-                        (socioForm.get('activo')?.dirty || socioForm.get('activo')?.touched)">
-                            <small class="text-danger" *ngIf="socioForm.get('activo')?.hasError('required')">
-                                El campo estado es requerido
-                            </small>
+                        <mat-error *ngIf="isValidField('activo')">
+                            {{ getFieldError('activo') }}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -206,13 +148,9 @@
                 accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 (change)="onFileSelected($event)" formControlName="archivo">
 
-            <mat-error class="mensaje" *ngIf="socioForm.get('archivo')?.invalid &&
-                socioForm.get('archivo')?.errors &&
-                (socioForm.get('archivo')?.dirty || socioForm.get('archivo')?.touched)">
-                <small class="text-danger" *ngIf="socioForm.get('archivo')?.hasError('required')">
-                    El campo documento/archivo es requerido
-                </small>
-            </mat-error>
+                <mat-error *ngIf="isValidField('archivo')">
+                    {{ getFieldError('archivo') }}
+                </mat-error>
         </div>
 
         <!-- Botón para descargar archivo (solo en modo editar) -->

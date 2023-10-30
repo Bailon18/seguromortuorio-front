@@ -10,7 +10,7 @@ export class Familiar {
     edad: number;
     direccion?: string;
     telefono?: string;
-    archivo?: Uint8Array;
+    archivo?: string;
     socio: Socio;
   }
   

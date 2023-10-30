@@ -4,7 +4,6 @@
     <fullyQualifiedTypeName name="com.museo.modelo.repositorios.VitrinasRepository"/>
     <fullyQualifiedTypeName name="com.museo.modelo.servicios.VitrinasService"/>
     <fullyQualifiedTypeName name="com.museo.modelo.entidades.Vitrinas"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.example.demo.model.entidad.Usuario"/>
     <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort"/>
     <fullyQualifiedTypeName name="org.springframework.data.domain.Sort"/>
@@ -12,4 +11,6 @@
     <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.AutoConfigureOrder"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="com.example.demo.model.entidad.servicios.UsuarioServicio"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.seguro.app.model.entidad.Familiar"/>
 </qualifiedTypeNameHistroy>
