@@ -22,6 +22,8 @@ import { HistorialComponent } from './socio/historial/historial.component';
 import { AfiliadosComponent } from './afiliados/afiliados.component';
 import { CrearSocioComponent } from './afiliados/modals/crear-socio/crear-socio.component';
 import { CrearFamiliarComponent } from './afiliados/modals/crear-familiar/crear-familiar.component';
+import { PagosComponent } from './pagos/pagos.component';
+import { CrearPagoComponent } from './pagos/modals/crear-pago/crear-pago.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { CrearFamiliarComponent } from './afiliados/modals/crear-familiar/crear-
     HistorialComponent,
     AfiliadosComponent,
     CrearSocioComponent,
-    CrearFamiliarComponent
+    CrearFamiliarComponent,
+    PagosComponent,
+    CrearPagoComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,58 @@
+
+  
+
+.mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
+    color: #212529;
+}
+
+.titulodisabled{
+    color: #1b428a;
+}
+
+.nombrepaciente{
+    font-weight: 500;
+}
+
+
+mat-form-field {
+    width: 100%;
+  }
+  
+
+
+.mat-dialog-content {
+    height: 50vh;
+}
+
+
+
+.mensaje{
+    font-size: 15px;
+  }
+
+.separacion{
+    height: 2px;
+}
+
+.archivo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+    color: #333;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    height: 40px;
+}
+
+.archivo-link:hover {
+    background-color: #e7e7e7;
+}
+
+.archivo-icon {
+    margin-right: 8px;
+}
+
+  

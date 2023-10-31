@@ -1,7 +1,7 @@
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Familiar } from '../../model/familia';
 import { AfiliadosService } from '../../services/afiliados.service';
@@ -40,19 +40,19 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
 
   ngOnInit(): void {
 
-    const today = new Date();
+    const today = new Date() ;
     today.setFullYear(today.getFullYear() - 18);
 
     this.familiaForm = this.formbuilder.group({
       id:[''],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      documentoIdentidad: ['', Validators.required],
+      documentoIdentidad: ['', [Validators.required, this.validarDocumentoIdentidad]],
       tipoParentesco: ['Esposa(o)', Validators.required],
-      fechaNacimiento: [today, [Validators.required]],
+      fechaNacimiento: [today, Validators.required],
       edad: [18, Validators.required],
-      direccion: [''],
-      telefono: [''],
+      direccion: ['',Validators.required],
+      telefono: ['',[Validators.required, this.validarTelefono]],
       archivo: [this.selectedFile, Validators.required],
     });
 
@@ -209,7 +209,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
 
 
       if(!this.modoCrear){
-        nuevoFamiliar.id = this.datoedit.id;
+        nuevoFamiliar.id = this.familiaForm.value.id ;
         tipo = "actualizó";
       }
 
@@ -308,6 +308,23 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
     }
   }
 
+  validarDocumentoIdentidad(control:any) {
+    const documentoIdentidad = control.value;
+    if (!/^\d+$/.test(documentoIdentidad)) {
+      return { numeroInvalido: true };
+    }
+    return null;
+  }
+
+  validarTelefono(control:any) {
+    const telefono = control.value;
+    if (!/^\d+$/.test(telefono)) {
+      return { numeroInvalido: true };
+    }
+    return null;
+  }
+
+
   isValidField(field: string): boolean | null {
     return (
       this.familiaForm.controls[field].errors &&
@@ -336,6 +353,9 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
 
         case 'correoInvalid':
             return `Correo ya esta registrado`;
+
+        case 'fechaNoEsTipo':
+          return `Fecha formato incorrecto`;
       }
     }
     return null;

@@ -1,6 +1,6 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import swall from 'sweetalert2';
 import { AfiliadosService } from '../../services/afiliados.service';
 import { Socio } from '../../model/socio';
@@ -31,7 +31,7 @@ export class CrearSocioComponent implements OnInit {
   ngOnInit(): void {
 
     const today = new Date();
-    today.setFullYear(today.getFullYear());
+    today.setFullYear(today.getFullYear() - 18);
 
     this.socioForm = this.formbuilder.group({
       id: [''],
@@ -142,6 +142,7 @@ export class CrearSocioComponent implements OnInit {
   }
 
   validarEdad(edadMinima: number) {
+
     return (control: { value: Date }) => {
       const fechaNacimiento = control.value;
       const today = new Date();
@@ -282,7 +283,5 @@ export class CrearSocioComponent implements OnInit {
     }
     return null;
   }
-
-
 
 }
