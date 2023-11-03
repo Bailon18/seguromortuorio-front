@@ -23,6 +23,8 @@ import { DatePipe } from '@angular/common';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import { MatTabsModule } from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 
@@ -50,7 +52,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatNativeDateModule,
     NgbModule,
     CdkAccordionModule,
-    MatTabsModule
+    MatTabsModule,
+    MatListModule,
+    MatAutocompleteModule
 
   ],
 
@@ -76,7 +80,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatNativeDateModule,
     NgbModule,
     CdkAccordionModule,
-    MatTabsModule
+    MatTabsModule,
+    MatListModule,
+    MatAutocompleteModule
 
     
 

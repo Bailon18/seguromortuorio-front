@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import baseUrl from 'src/app/helpers';
 import { Socio } from '../model/socio';
 import { Familiar } from '../model/familia';
+import { Aportacion } from '../../pagos/model/aportaciones';
 
 
 @Injectable({
@@ -55,5 +56,13 @@ export class AfiliadosService {
 
   buscarFamiliarId(id:number): Observable<Familiar>{
     return this.http.get<Familiar>(`${baseUrl}/apifm/familiares/${id}`);
+  }
+
+  getAportacionAhoSocio(socioId: number): Observable<number[]> {
+    return this.http.get<number[]>(`${baseUrl}/apifm/aportaciones/aportacion-aho?socioId=${socioId}`);
+  }
+
+    getAportacionesPorAnioYIdSocio(year: number, socioId: number): Observable<Aportacion[]> {
+    return this.http.get<Aportacion[]>(`${baseUrl}/apifm/aportaciones/por-ano-y-socio?year=${year}&socioId=${socioId}`);
   }
 }

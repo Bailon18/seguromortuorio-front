@@ -29,13 +29,31 @@
     <div class="row mb-3">
         <!-- DOCUMENTO DE IDENTIDAD -->
         <div class="col-6">
-            <mat-form-field appearance="fill">
-                <mat-label>Cédula de ciudadanía</mat-label>
-                <input matInput formControlName="documentoIdentidad" (keyup)="validardocumentoidentidad($event)">
-                <mat-error *ngIf="isValidField('documentoIdentidad')">
-                    {{ getFieldError('documentoIdentidad') }}
-                </mat-error>
-            </mat-form-field>
+
+            <div class="row">
+
+                <!-- CEDULA -->
+                <div class="col-7">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Cédula de ciudadanía</mat-label>
+                        <input matInput formControlName="documentoIdentidad" (keyup)="validardocumentoidentidad($event)">
+                        <mat-error *ngIf="isValidField('documentoIdentidad')">
+                            {{ getFieldError('documentoIdentidad') }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- CUOTA -->
+                <div class="col-5">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Couta</mat-label>
+                        <input type="number" matInput formControlName="cuotas">
+                        <mat-error *ngIf="isValidField('cuotas')">
+                            {{ getFieldError('cuotas') }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
         </div>
 
         <!-- FECHA DE NACIMIENTO -->

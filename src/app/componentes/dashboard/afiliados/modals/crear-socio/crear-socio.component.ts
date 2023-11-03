@@ -40,6 +40,7 @@ export class CrearSocioComponent implements OnInit {
       documentoIdentidad: ['', [Validators.required, this.validarDocumentoIdentidad]],
       fechaNacimiento: [today, [Validators.required, this.validarEdad(18)]],
       edad: [18, Validators.required],
+      cuotas: [6, [Validators.required, Validators.min(6)]],
       direccion: ['',Validators.required],
       telefono: ['',[Validators.required, this.validarTelefono]],
       correoElectronico: ['', [Validators.required, Validators.email]],
@@ -55,6 +56,7 @@ export class CrearSocioComponent implements OnInit {
           id: u.id,
           nombre: u.nombre,
           apellido: u.apellido,
+          cuotas: u.cuotas,
           documentoIdentidad: u.documentoIdentidad,
           fechaNacimiento: new Date(u.fechaNacimiento),
           edad: u.edad,
@@ -105,6 +107,7 @@ export class CrearSocioComponent implements OnInit {
           nombre: this.socioForm.value.nombre,
           apellido: this.socioForm.value.apellido,
           documentoIdentidad: this.socioForm.value.documentoIdentidad,
+          cuotas: this.socioForm.value.cuotas,
           fechaNacimiento: this.socioForm.value.fechaNacimiento,
           edad: this.socioForm.value.edad,
           direccion: this.socioForm.value.direccion,
@@ -270,6 +273,9 @@ export class CrearSocioComponent implements OnInit {
 
         case 'email':
           return `${field} no tiene el formato correcto`;
+
+        case 'min':
+            return `Mayor a 6 dolares`;
 
         case 'minLength':
           return `${field} minímo 5 digitos`;

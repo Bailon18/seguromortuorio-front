@@ -11,6 +11,11 @@
     <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.AutoConfigureOrder"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="com.example.demo.model.entidad.servicios.UsuarioServicio"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.seguro.app.model.entidad.Familiar"/>
+    <fullyQualifiedTypeName name="org.springframework.data.repository.query.Param"/>
+    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
+    <fullyQualifiedTypeName name="com.seguro.app.util.ENUM.MetodoPago"/>
+    <fullyQualifiedTypeName name="com.seguro.app.util.ENUM.TipoPago"/>
 </qualifiedTypeNameHistroy>

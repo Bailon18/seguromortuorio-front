@@ -1,0 +1,82 @@
+
+<div id="cuerpoboleta"> <!-- style="border: 1px solid #2f4053; padding: 15px;" -->
+  <div class="clearfix">
+    <div id="logo">
+      <img src="assets/imagen/logo.png" alt="Logo de la Empresa">
+    </div>
+      <div id="company">
+        <h2 class="name">Fondo Mortuorio 2 de Agosto</h2>
+        <div>Dirección: 455 Ecuador</div>
+        <div>Teléfono: (602) 519-0450</div>
+        <div><a href="mailto:empresa@example.com">correo@egmail.com</a></div>
+      </div>
+    </div>
+    <br>
+    <main>
+      <div id="details" class="clearfix">
+        <div id="client">
+          <div class="to">BOLETA E.:</div>
+          <h2 class="name">{{ pago.socio.nombre + ' ' + pago.socio.apellido }}</h2>
+          <div class="address">{{ pago.socio.direccion + '-' +pago.socio.telefono }}</div>
+          <div class="email"><a href="#">{{pago.socio.correoElectronico}}</a></div>
+        </div>
+        <div id="invoice">
+          <h1>Boleta Electronica</h1>
+          <div class="date">Fecha de la BOLETA E.:  {{pago.fechaAportacion | date:'yyyy-MM-dd HH:mm'}}</div>
+          <div class="date">Metodo de pago: {{ pago.metodoPago }}</div>
+          <div class="date">Tesorero: {{ pago.tesorero.nombreUsuario }}</div>
+        </div>
+      </div>
+      <table class="mat-elevation-z8" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+          <tr>
+            <th class="no">#</th>
+            <th class="desc">FECHA DE<br>PAGO</th>
+            <th class="unit">CUOTA DE<br>FINADO</th>
+            <th class="qty">OTRAS<br>APORTACIONES</th>
+            <th class="total">TOTAL</th>
+          </tr>        
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">{{"00"+pago.id}}</td>
+            <td class="desc">{{pago.fechaAportacion | date:'yyyy-MM-dd HH:mm'}}</td>
+            <td class="unit">{{ pago.cuotasFinados | currency: 'USD':true:'1.2-2' }}</td>
+            <td class="qty">{{ pago.otrasAportaciones | currency: 'USD':true:'1.2-2' }}</td>
+            <td class="total">{{ (pago.cuotasFinados + pago.otrasAportaciones) | currency:'USD':true:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2"></td>
+            <td colspan="2">SUBTOTAL</td>
+            <td>{{ (pago.cuotasFinados + pago.otrasAportaciones) | currency:'USD':true:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td colspan="2"></td>
+            <td colspan="2">Adicionales</td>
+            <td>{{ (0) | currency:'USD':true:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td colspan="2"></td>
+            <td colspan="2">TOTAL GENERAL</td>
+            <td>{{ (pago.cuotasFinados + pago.otrasAportaciones) | currency:'USD':true:'1.2-2' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div id="thanks">¡Gracias!</div>
+      <div id="notices">
+          <div>AVISO:</div>
+          <div class="notice">Le recordamos la importancia de cumplir con el pago de sus cuotas a tiempo.</div>
+        </div>
+    </main>
+</div>
+
+  <br>
+  <div class="download-button">
+    <a href="#" class="download-link" (click)="descargarBoleta($event)">
+      <i class="fa fa-download"></i> Descargar Boleta
+    </a>
+  </div>
+  
+  

@@ -1,1 +1,137 @@
-<p>crear-pago works!</p>
+<h1 mat-dialog-title style="font-weight: 500;">{{titulo}}</h1>
+
+<form [formGroup]="aportacionForm">
+
+    <div class="row mb-3">
+        <div class="col-6">
+            <input type="hidden" formControlName="id">
+            <input type="hidden" formControlName="idSocio">
+            <mat-form-field appearance="fill">
+                <mat-label>Socio</mat-label>
+                <input type="text"
+                       placeholder="Busque por nombre - apellido - cedula"
+                       aria-label="Socio"
+                       matInput
+                       formControlName="campoBusqueda"
+                       [matAutocomplete]="auto"
+                       (input)="buscarSocio($event)"
+                       >
+                       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                        <mat-option *ngFor="let socio of sugerencias" [value]="socio" (click)="seleccionarSugerencia(socio)">
+                          {{ socio.nombre }} - {{ socio.apellido }}  ({{ socio.documentoIdentidad }})
+                        </mat-option>
+                      </mat-autocomplete>
+                      <mat-error *ngIf="isValidField('campoBusqueda')">
+                        {{ getFieldError('campoBusqueda') }}
+                    </mat-error>
+              </mat-form-field>
+          </div>
+
+          <div class="col-6">
+            <mat-form-field appearance="fill">
+                <mat-label>Pago mensual</mat-label>
+                <input type="text" matInput formControlName="cuotas" [value]="formatCurrency(aportacionForm.get('cuotas')?.value)">
+                <mat-error *ngIf="isValidField('cuotas')">
+                    {{ getFieldError('cuotas') }}
+                </mat-error>
+              </mat-form-field>
+          </div>
+    </div>
+
+
+    <div class="row mb-3">
+        <div class="col-6">
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha de Pago</mat-label>
+                <input matInput formControlName="fechaAportacion" [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="isValidField('fechaAportacion')">
+                    {{ getFieldError('fechaAportacion') }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Cuota finado</mat-label>
+                        <input type="text" matInput formControlName="cuotasFinados" (input)="onInputCuotasFinados($event)">
+                        <mat-error *ngIf="isValidField('cuotasFinados')">
+                            {{ getFieldError('cuotasFinados') }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Otra Aportación</mat-label>
+                        <input type="text" matInput formControlName="otrasAportaciones" (input)="onInputOtrasAportaciones($event)">
+                        <mat-error *ngIf="isValidField('otrasAportaciones')">
+                            {{ getFieldError('otrasAportaciones') }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+
+        <div class="col-6">
+            <mat-form-field appearance="fill">
+                <mat-label>Metodo pago</mat-label>
+                <mat-select formControlName="metodoPago" name="metodoPago" (selectionChange)="onMetodoPagoChange()">
+                    <mat-option value='EFECTIVO'>Efectivo</mat-option>
+                    <mat-option value='TRANSFERENCIA_BANCARIA'>Transferencia Bancaria</mat-option>
+                    <mat-option value='OTROS'>Otros</mat-option>
+                </mat-select>
+                <mat-error *ngIf="isValidField('metodoPago')">
+                    {{ getFieldError('metodoPago') }}
+                </mat-error>
+            </mat-form-field>
+        </div>  
+        <div class="col-6">  
+            <mat-form-field appearance="fill">
+                <mat-label>N° Transacción</mat-label>
+                <input type="text" matInput formControlName="numeroTransaccion">
+                <mat-error *ngIf="isValidField('numeroTransaccion')">
+                    {{ getFieldError('numeroTransaccion') }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-6">
+            <mat-form-field appearance="fill">
+                <mat-label>Estado pago</mat-label>
+                <mat-select formControlName="estadoPago" name="estadoPago">
+                    <mat-option value='PENDIENTE'>Pendiente</mat-option>
+                    <mat-option value='PAGADO'>Pagado</mat-option>
+                    <mat-option value='RETRASADO'>Retrasado</mat-option>
+                    <mat-option value='OTROS'>Otros</mat-option>
+                </mat-select>
+                <mat-error *ngIf="isValidField('estadoPago')">
+                    {{ getFieldError('estadoPago') }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <mat-form-field appearance="fill"> 
+            <mat-label>Observacion</mat-label>
+            <textarea matInput formControlName="descripcion" name="descripcion"></textarea>
+        </mat-form-field>
+    </div>
+
+    <!-- Botones -->
+    <div class="row mb-2">
+        <div class="col text-end">
+            <button class="btn btn-secondary m-2" mat-dialog-close>Cancelar</button>
+            <button class="btn btn-primary" type="submit" (click)="guardarPago()"
+                [disabled]="aportacionForm.invalid">{{tituloBoton}}</button>
+        </div>
+    </div>
+</form>

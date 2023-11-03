@@ -6,6 +6,7 @@ import { Socio } from './model/socio';
 import { AfiliadosService } from './services/afiliados.service';
 import { CrearSocioComponent } from './modals/crear-socio/crear-socio.component';
 import { CrearFamiliarComponent } from './modals/crear-familiar/crear-familiar.component';
+import { ReporteAportacionesComponent } from './modals/reporte-aportaciones/reporte-aportaciones.component';
 
 
 @Component({
@@ -64,6 +65,15 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
 
   abrirDialogoFamiliar(fila: any){
     this.dialog.open(CrearFamiliarComponent, {
+      width:'700px',
+      data:fila
+      }).afterClosed().subscribe(valor =>{
+        this.listarAfiliaciones();
+    });
+  }
+
+  abrirDialogoReporte(fila: any){
+    this.dialog.open(ReporteAportacionesComponent, {
       width:'700px',
       data:fila
       }).afterClosed().subscribe(valor =>{

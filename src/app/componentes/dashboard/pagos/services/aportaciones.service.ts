@@ -25,5 +25,11 @@ export class AportacionService {
     return this.http.post<Aportacion>(`${baseUrl}/apifm/aportaciones`, dato);
   }
 
+  buscarSocio(filtro: string): Observable<any[]> {
+    return this.http.get<any[]>(`${baseUrl}/apifm/socios/buscar-socio?filtro=${filtro}`);
+  }
 
+  eliminarAportacion(aportacionId: number): Observable<void> {
+    return this.http.delete<void>(`${baseUrl}/apifm/aportaciones/${aportacionId}`);
+  }
 }

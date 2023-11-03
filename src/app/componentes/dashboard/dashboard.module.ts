@@ -24,6 +24,8 @@ import { CrearSocioComponent } from './afiliados/modals/crear-socio/crear-socio.
 import { CrearFamiliarComponent } from './afiliados/modals/crear-familiar/crear-familiar.component';
 import { PagosComponent } from './pagos/pagos.component';
 import { CrearPagoComponent } from './pagos/modals/crear-pago/crear-pago.component';
+import { DetallePdfComponent } from './pagos/modals/detalle-pdf/detalle-pdf.component';
+import { ReporteAportacionesComponent } from './afiliados/modals/reporte-aportaciones/reporte-aportaciones.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { CrearPagoComponent } from './pagos/modals/crear-pago/crear-pago.compone
     CrearSocioComponent,
     CrearFamiliarComponent,
     PagosComponent,
-    CrearPagoComponent
+    CrearPagoComponent,
+    DetallePdfComponent,
+    ReporteAportacionesComponent
   ],
   imports: [
     CommonModule,

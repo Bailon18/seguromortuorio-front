@@ -2,6 +2,7 @@ export class Socio {
     id?: number;
     nombre: string;
     apellido: string;
+    cuotas: number;
     documentoIdentidad: string;
     fechaNacimiento: Date;
     edad: number;

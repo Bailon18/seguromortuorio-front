@@ -1,0 +1,71 @@
+
+<mat-form-field appearance="fill">
+    <mat-label>Selecciona el año</mat-label>
+    <mat-select [(value)]="selectedYear" (selectionChange)="buscarAportacionesPorAnio($event.value)">
+      <mat-option *ngFor="let year of ahoaportacion" [value]="year">{{ year }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+<div id="cuerpoboleta">
+    <section>
+		<div class="container">
+			<div class="details clearfix">
+				<div class="client left">
+					<p class="name">{{ nombresocio }}</p>
+					<div class="date">
+						Fecha de reporte: {{fechaactual | date:'yyyy-MM-dd HH:mm'}}<br> <!-- Fecha y hora del reporte-->
+						Año seleccionado para reporte: {{ selectedYear }} <!-- Año de reporte ( año que se selecciona ) -->
+					</div>
+				</div>
+			</div>
+            <table border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                  <tr>
+                    <th class="desc">FECHA DE PAGO</th>
+                    <th class="qty">METODO DE PAGO</th>
+                    <th class="unit">MES DE PAGO</th>
+                    <th class="desc">OBSERVACION</th>
+                    <th class="total">TOTAL CUOTA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let aportacion of aportacionessocio">
+                    <td class="desc">{{ aportacion.fechaAportacion | date:'yyyy-MM-dd' }}</td>
+                    <td class="qty">{{ aportacion.metodoPago }}</td>
+                    <td class="unit">{{ getMonthName(aportacion.fechaAportacion | date:'MM') }}</td>
+                    <td class="desc2">{{ aportacion.descripcion }}</td>
+                    <td class="total">{{ aportacion.cuotasFinados + aportacion.otrasAportaciones  | currency: 'USD':true:'1.2-2' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+			<div class="no-break">
+				<table class="grand-total">
+					<tbody>
+						<tr>
+							<td class="desc"></td>
+							<td class="qty"></td>
+							<td class="unit">SUBTOTAL:</td>
+							<td class="total">{{ costoTotal | currency: 'USD':true:'1.2-2' }}</td> <!-- aqui la suma de todo la  lista pero de cuotasFinados + otrasAportaciones -->
+						</tr>
+						<tr>
+							<td class="desc"></td>
+							<td class="qty"></td>
+							<td class="unit">TAX 0%</td>
+							<td class="total">0</td>
+						</tr>
+						<tr>
+							<td class="desc"></td>
+							<td class="unit" colspan="2">APORTACIONES AÑO {{selectedYear}}:</td>
+							<td class="total">{{ costoTotal | currency: 'USD':true:'1.2-2' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+</div>
+<br>
+<div class="download-button">
+  <a href="#" class="download-link" (click)="descargarBoleta($event)">
+    <i class="fa fa-download"></i> Descargar Reporte
+  </a>
+</div>

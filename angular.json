@@ -16,7 +16,12 @@
           "options": {
             "allowedCommonJsDependencies": [
               "lodash",
-              "sweetalert2"
+              "sweetalert2",
+              "html2pdf.js",
+              "raf",
+              "rgbcolor",
+              "canvg",
+              "jspdf"
            ],
             "outputPath": "dist/seguro-mortuorio",
             "index": "src/index.html",
