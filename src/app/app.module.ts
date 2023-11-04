@@ -8,15 +8,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http'; // add this line
 import { FormsModule } from '@angular/forms';
 import { NgToastModule } from 'ng-angular-popup';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
+//import { ChartModule } from 'angular-highcharts'
 
 
 
 
 @NgModule({
-  // los componentes que contiene el modulo APP
   declarations: [
     AppComponent,
   ],
@@ -25,15 +22,11 @@ import { RouterModule } from '@angular/router';
     AppRoutingModule,
     ComponentesModule,
     BrowserAnimationsModule,
-    HttpClientModule, //add this line
+    HttpClientModule,
     FormsModule,
     NgToastModule,
-   
-
+    //ChartModule
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-// 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
-// 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

@@ -9,6 +9,7 @@ import { UsuarioService } from '../dashboard/usuario/services/usuario.service';
 import { LoginService } from './login.service';
 import { SessionService } from './session.service';
 import { Usuario } from './model/usuario-logeo';
+import { TokenService } from 'src/app/shared/services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private servicioLogin: LoginService,
+    private tokenService: TokenService,
     private servicioSession: SessionService
   ) {
     this.formulario = this.fb.group({
@@ -42,6 +44,11 @@ export class LoginComponent implements OnInit {
         this.servicioSession.setUsuarioLogeado(usuario);
         this.servicioSession.setRolNombre(usuario.tipoUsuario);
         this.servicioSession.setUsuarioNombre(usuario.nombreUsuario);
+
+        this.tokenService.setToken(usuario.contrasena!);
+        this.tokenService.setUserName(usuario.nombreUsuario!);
+        this.tokenService.setAuthorities([usuario.tipoUsuario]!);
+       
         swall.fire({
           html: `<strong>${usuario.nombreUsuario.toLowerCase()}</strong> Iniciaste sesión como: <strong>${usuario.tipoUsuario.toUpperCase()}</strong>`,
           icon: 'success',

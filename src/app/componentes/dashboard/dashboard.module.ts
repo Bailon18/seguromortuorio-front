@@ -7,18 +7,10 @@ import { InicioComponent } from './inicio/inicio.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
 import { UsuarioComponent } from './usuario/usuario.component';
-import { CitasComponent } from './citas/citas.component';
-import { ReportesComponent } from './reportes/reportes.component';
 import { MaterialModule } from '../../material/material.module';
 import { CrearComponent } from './usuario/paginas/crear.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ListarsesionesComponent } from './citas/paginas/listarsesiones/listarsesiones.component';
-import { DetallecitaComponent } from './citas/paginas/detallecita/detallecita.component';
-import { NuevacitaComponent } from './citas/paginas/nuevacita/nuevacita.component';
-import { PacienteComponent } from './socio/paciente.component';
-import { FormpacienteComponent } from './socio/paginas/formPaciente/formpaciente.component';
-import { HistorialComponent } from './socio/historial/historial.component';
 import { AfiliadosComponent } from './afiliados/afiliados.component';
 import { CrearSocioComponent } from './afiliados/modals/crear-socio/crear-socio.component';
 import { CrearFamiliarComponent } from './afiliados/modals/crear-familiar/crear-familiar.component';
@@ -27,35 +19,29 @@ import { CrearPagoComponent } from './pagos/modals/crear-pago/crear-pago.compone
 import { DetallePdfComponent } from './pagos/modals/detalle-pdf/detalle-pdf.component';
 import { ReporteAportacionesComponent } from './afiliados/modals/reporte-aportaciones/reporte-aportaciones.component';
 
+
 @NgModule({
   declarations: [
     DashboardComponent,
     InicioComponent,
     NavbarComponent,
-    PacienteComponent,
     UsuarioComponent,
-    CitasComponent,
-    ReportesComponent,
     CrearComponent,
-    FormpacienteComponent,
-    ListarsesionesComponent,
-    DetallecitaComponent,
-    NuevacitaComponent,
-    HistorialComponent,
     AfiliadosComponent,
     CrearSocioComponent,
     CrearFamiliarComponent,
     PagosComponent,
     CrearPagoComponent,
     DetallePdfComponent,
-    ReporteAportacionesComponent
+    ReporteAportacionesComponent,
+    
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
    
   ],
   exports: [

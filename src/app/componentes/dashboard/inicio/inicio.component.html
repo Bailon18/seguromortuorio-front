@@ -1,104 +1,135 @@
+<div class="container-fluid">
 
-<br>
-<mat-card>
+    <br>
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Datos Estadisticos</h1>
+    </div>
+
+    <!-- Content Row -->
     <div class="row">
-        <div class="row">
-            <div class="col-6 mb-2">
-                <mat-card-title>
-                    Home
-                </mat-card-title>
+        <!-- Ingresos Totales Mensuales Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Ingresos Totales Mensuales</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div> <!-- Reemplaza $40,000 con la cantidad real -->
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i> <!-- Icono de calendario -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <mat-card-content>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="row">
-                                <div class="col-8">
-                                    <!-- <mat-form-field>
-                                        <mat-label>Filtro</mat-label>
-                                        <input matInput (keyup)="aplicarFiltro($event)" placeholder="Ejemplo.. Bailon" #input>
-                                    </mat-form-field> -->
-                                </div>
-                                <div class="col-4" style="margin-top: 18px;">
-                                    <!-- <mat-checkbox color="primary" class="example-margin" [(ngModel)]="estadoFiltro" (click)="mostrarInactivos()">Mostrar Inactivos</mat-checkbox> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 text-end">
-                            <!-- <button class="btn btn-primary" (click)="abrirDialogoNuevoUsuario()">Nuevo Usuario</button> -->
-                        </div>
-                    </div>
-                    <div class="mat-elevation-z8">
-                        <!-- <table mat-table [dataSource]="dataSource">
-                            <ng-container matColumnDef="ID">
-                            <th mat-header-cell *matHeaderCellDef> idUsuario</th>
-                            <td mat-cell *matCellDef="let fila"> {{fila.id}} </td>
-                            </ng-container>
-                        
-                            <ng-container matColumnDef="NOMBRE">
-                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                            <td mat-cell *matCellDef="let fila"> {{fila.nombres}} </td>
-                            </ng-container>
-                        
-                            <ng-container matColumnDef="APELLIDOS">
-                            <th mat-header-cell *matHeaderCellDef> Apellidos </th>
-                            <td mat-cell *matCellDef="let fila"> {{fila.apellidos}} </td>
-                            </ng-container>
-                        
-                            <!-- <ng-container matColumnDef="DNI">
-                            <th mat-header-cell *matHeaderCellDef> Dni </th>
-                            <td mat-cell *matCellDef="let fila"> {{fila.dni}} </td>
-                            </ng-container> -->
-                
-                            <!-- <ng-container matColumnDef="CORREO">
-                                <th mat-header-cell *matHeaderCellDef> Correo </th>
-                                <td mat-cell *matCellDef="let fila"> {{fila.correo}} </td>
-                            </ng-container>
-                            
-                            <ng-container matColumnDef="ESTADO" style="width: 100%;">
-                            <th mat-header-cell *matHeaderCellDef> Estado </th>
-                            <td mat-cell *matCellDef="let fila">
-                                <div *ngIf="fila.estado === 'Activo'; else ladoNe">                
-                                    <span class="badge text-bg-secondary">{{fila.estado}}</span>
-                                </div>
-                                <ng-template #ladoNe>
-                                    <span class="badge text-bg-danger">{{fila.estado}}</span>
-                                </ng-template>  
-                            </td>
-                            </ng-container>
-                        
-                            <ng-container matColumnDef="ROL">
-                            <th mat-header-cell *matHeaderCellDef> Rol </th>
-    
-                            <td mat-cell *matCellDef="let fila">
-                                <p *ngFor="let f of fila.roles">
-                                    {{f.descripcion}}
-                                </p>
-                            </td>
-                            </ng-container>
-                
-                            <ng-container matColumnDef="ACCIONES">
-                                <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                                <td mat-cell *matCellDef="let fila">
-                                    <a class="pointer iconosAccion" matTooltip="Editar Usuario" (click)="editarUsuario(fila)"><mat-icon class="success-icon">edit</mat-icon></a>
-                                    <a class="pointer iconosAccion" matTooltip="Bloquear Usuario" (click)="bloquearUsuario(fila)"><mat-icon class="danger-icon">not_interested</mat-icon></a>
-                                    <!-- <a class="pointer iconosAccion" matTooltip="Exportar Datos"><mat-icon class="pdf-icon">picture_as_pdf</mat-icon></a> -->
-                                <!-- </td>
-                            </ng-container>
-                        
-                            <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-                            <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
-                        </table>
-                        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                            aria-label="">
-                        </mat-paginator>  -->
-                    </div>
-                </mat-card-content>
 
+        <!-- Ingresos Totales Anuales Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Ingresos Totales Anuales</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div> <!-- Reemplaza $215,000 con la cantidad real -->
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-money-bill-alt fa-2x text-gray-300"></i> <!-- Icono de dinero -->
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
 
+        <!-- Número de Socios Activos Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class ="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Número de Socios Activos</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">500</div> <!-- Reemplaza 500 con la cantidad real -->
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i> <!-- Icono de usuarios -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total de Aportaciones Realizadas Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Total de Aportaciones Realizadas</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div> <!-- Reemplaza $40,000 con la cantidad real -->
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-comment-dollar fa-2x text-gray-300"></i> <!-- Icono de comentarios y dinero -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</mat-card>
+
+
+    <!-- Content Row -->
+
+    <div class="row">
+
+<!-- Area Chart -->
+<div class="col-xl-8 col-lg-7">
+    <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: #dfe2e9;">
+            <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+        </div> <!-- Agregamos un separador aquí -->
+        <hr class="m-0"> <!-- Línea separadora -->
+        <div class="card-body">
+            <div class="chart-area">
+                <canvas id="myAreaChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pie Chart -->
+<div class="col-xl-4 col-lg-5">
+    <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: #dfe2e9;">
+            <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+        </div> <!-- Agregamos un separador aquí -->
+        <hr class="m-0"> <!-- Línea separadora -->
+        <div class="card-body">
+            <div class="chart-pie pt-4 pb-2">
+                <canvas id="myPieChart"></canvas>
+            </div>
+            <div class="mt-4 text-center small">
+                <span class="mr-2">
+                    <i class="fas fa-circle text-primary"></i> Direct
+                </span>
+                <span class="mr-2">
+                    <i class="fas fa-circle text-success"></i> Social
+                </span>
+                <span class="mr-2">
+                    <i class="fas fa-circle text-info"></i> Referral
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+
+
+</div>

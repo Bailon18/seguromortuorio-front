@@ -26,10 +26,10 @@
                             alt="Charles Hall" />
                     </div>
                     <div class="flex-grow-1 ps-2">
-                        <a class="sidebar-user-title" href="#">
+                        <a class="sidebar-user-title" style="color: #fff">
                             {{this.servicioSession.getUsuarioNombre()}}
                         </a>
-                        <div class="sidebar-user-subtitle">{{this.servicioSession.getRolNombre() | titlecase }}</div>
+                        <div class="sidebar-user-subtitle" style="color: #fff">{{this.servicioSession.getRolNombre() | titlecase }}</div>
                     </div>
                 </div>
             </div>
@@ -37,26 +37,26 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-header">Menu</li>
 
-                <li class="sidebar-item" *ngIf="this.servicioSession.getRolNombre() == 'ADMINISTRADOR'">
-                    <a class="sidebar-link" routerLink="/dashboard/">
+                <li class="sidebar-item">
+                    <a class="sidebar-link" routerLink="/dashboard">
                         <i class="fa-solid fa-users fa-lg"></i> <span class="align-middle">Home</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item" *ngIf="this.servicioSession.getRolNombre() == 'ADMINISTRADOR'">
+                <li class="sidebar-item" routerLinkActive="active">
                     <a class="sidebar-link" routerLink="/dashboard/pagos">
                         <i class="fa-solid fa-money-bill-alt fa-lg"></i> <span class="align-middle">Pagos</span>
                     </a>
                 </li>
 
 
-                <li class="sidebar-item" *ngIf="this.servicioSession.getRolNombre() == 'ADMINISTRADOR'">
+                <li class="sidebar-item" routerLinkActive="active" *ngIf="this.servicioSession.getRolNombre() == 'ADMINISTRADOR'">
                     <a class="sidebar-link" routerLink="/dashboard/afiliados">
                         <i class="fa-solid fa-users fa-lg"></i> <span class="align-middle">Socios</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item" *ngIf="this.servicioSession.getRolNombre() == 'ADMINISTRADOR'">
+                <li class="sidebar-item" routerLinkActive="active" *ngIf="this.servicioSession.getRolNombre() == 'ADMINISTRADOR'">
                     <a class="sidebar-link" routerLink="/dashboard/usuarios">
                         <i class="fa-solid fa-user fa-lg"></i> <span class="align-middle">Usuario</span>
                     </a>
@@ -67,7 +67,7 @@
             <div class="sidebar-cta">
                 <ul class="sidebar-nav">
                     <li class="sidebar-item">
-                        <a class="sidebar-link" routerLink="/login">
+                        <a class="sidebar-link" (click)="logOut()">
                             <i class="fa-solid fa-right-from-bracket fa-lg"></i>
                             <span class="align-middle">Salir</span>
                         </a>
@@ -99,7 +99,7 @@
                             <a class="dropdown-item"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
                             <div class="dropdown-divider"></div>
 
-                            <a class="dropdown-item" routerLink="/login" ref="#!">Cerrar Sesíon</a>
+                            <a class="dropdown-item" (click)="logOut()" ref="#!">Cerrar Sesíon</a>
                         </div>
                     </li>
                 </ul>
