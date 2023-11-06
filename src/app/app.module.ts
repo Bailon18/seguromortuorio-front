@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http'; // add this line
 import { FormsModule } from '@angular/forms';
 import { NgToastModule } from 'ng-angular-popup';
-//import { ChartModule } from 'angular-highcharts'
 
 
 
@@ -25,7 +24,7 @@ import { NgToastModule } from 'ng-angular-popup';
     HttpClientModule,
     FormsModule,
     NgToastModule,
-    //ChartModule
+   
   ],
   bootstrap: [AppComponent]
 })
