@@ -17,7 +17,8 @@ export class CrearSocioComponent implements OnInit {
   tituloBoton:string ="Guardar"
   selectedFile: File | null | undefined = null;
   nuevosocio?: Socio;
-  modoCrear:boolean = true
+  modoCrear:boolean = true;
+  correoOriginal: string;
 
   @ViewChild('imagenInputFile', { static: false }) imagenInputFile?: ElementRef;
 
@@ -37,12 +38,12 @@ export class CrearSocioComponent implements OnInit {
       id: [''],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      documentoIdentidad: ['', [Validators.required, this.validarDocumentoIdentidad]],
+      documentoIdentidad: ['', [Validators.required, this.validarDocumentoIdentidad, Validators.minLength(10), Validators.maxLength(10)]],
       fechaNacimiento: [today, [Validators.required, this.validarEdad(18)]],
       edad: [18, Validators.required],
       cuotas: [6, [Validators.required, Validators.min(6)]],
       direccion: ['',Validators.required],
-      telefono: ['',[Validators.required, this.validarTelefono]],
+      telefono: ['',[Validators.required, this.validarTelefono, Validators.minLength(10), Validators.maxLength(10)]],
       correoElectronico: ['', [Validators.required, Validators.email]],
       contrasena: ['fondomortuorio23', [Validators.required, Validators.minLength(5)]],
       FechaInscripcion: [null, Validators.required],
@@ -68,6 +69,9 @@ export class CrearSocioComponent implements OnInit {
           activo: u.activo,
           archivo: u.archivo
         });
+
+        this.correoOriginal = u.correoElectronico;
+        this.socioForm.get('correoElectronico')?.setValue(u.correoElectronico);
 
         if (u.archivo) {
           this.selectedFile = new File([u.archivo], 'archivo.pdf', { type: 'application/pdf' });
@@ -215,19 +219,22 @@ export class CrearSocioComponent implements OnInit {
     }
   }
 
-  validarcorreo(event:any){
-
-    if (this.socioForm.controls['correoElectronico'].valid){
-
-      const correo = (event.target as HTMLInputElement).value;
-      this.afiliacionServicio.existsByCorreoElectronico(correo).subscribe(res => {
-        if(res){
-          this.socioForm.controls['correoElectronico'].setErrors({ correoInvalid: 'Correo ya esta registrado' });
-        }else{
-          this.socioForm.controls['correoElectronico'].setErrors(null);
-        }
-      })
-
+  validarcorreo(event: any) {
+    const correoFormControl = this.socioForm.get('correoElectronico');
+  
+    if (correoFormControl?.valid) {
+      const nuevoCorreo = (event.target as HTMLInputElement).value;
+  
+      // Verifica si el correo realmente ha cambiado
+      if (nuevoCorreo !== this.correoOriginal) {
+        this.afiliacionServicio.existsByCorreoElectronico(nuevoCorreo).subscribe(res => {
+          if (res) {
+            correoFormControl.setErrors({ correoInvalid: 'Correo ya está registrado' });
+          } else {
+            correoFormControl.setErrors(null);
+          }
+        });
+      }
     }
   }
 
@@ -262,6 +269,7 @@ export class CrearSocioComponent implements OnInit {
 
     for (const key of Object.keys(errors)) {
       switch (key) {
+        
         case 'required':
           return `${field} es requerido`;
         
@@ -275,10 +283,15 @@ export class CrearSocioComponent implements OnInit {
           return `${field} no tiene el formato correcto`;
 
         case 'min':
-            return `Mayor a 6 dolares`;
+          return `${field} debe tener al menos 6 dolares`;
 
-        case 'minLength':
-          return `${field} minímo 5 digitos`;
+        case 'minlength':
+            const minLength = errors['minlength']?.requiredLength;
+            return `debe tener al menos ${minLength} digitos`;
+          
+        case 'maxlength':
+              const maxLength = errors['maxlength']?.requiredLength;
+              return `debe tener con maximo ${maxLength} digitos`;
 
         case 'documentoInvalid':
           return `Cedula ya esta registrado`;

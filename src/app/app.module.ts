@@ -9,9 +9,6 @@ import {HttpClientModule} from '@angular/common/http'; // add this line
 import { FormsModule } from '@angular/forms';
 import { NgToastModule } from 'ng-angular-popup';
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,

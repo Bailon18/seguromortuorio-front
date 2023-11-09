@@ -47,12 +47,12 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       id:[''],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      documentoIdentidad: ['', [Validators.required, this.validarDocumentoIdentidad]],
+      documentoIdentidad: ['', [Validators.required, this.validarDocumentoIdentidad , Validators.minLength(10), Validators.maxLength(10)]],
       tipoParentesco: ['Esposa(o)', Validators.required],
       fechaNacimiento: [today, Validators.required],
       edad: [18, Validators.required],
       direccion: ['',Validators.required],
-      telefono: ['',[Validators.required, this.validarTelefono]],
+      telefono: ['',[Validators.required, this.validarTelefono , Validators.minLength(10), Validators.maxLength(10)]],
       archivo: [this.selectedFile, Validators.required],
     });
 
@@ -356,6 +356,14 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
 
         case 'fechaNoEsTipo':
           return `Fecha formato incorrecto`;
+
+        case 'minlength':
+            const minLength = errors['minlength']?.requiredLength;
+            return `debe tener al menos ${minLength} digitos`;
+          
+        case 'maxlength':
+              const maxLength = errors['maxlength']?.requiredLength;
+              return `debe tener con maximo ${maxLength} digitos`;
       }
     }
     return null;

@@ -18,6 +18,7 @@ export class CrearComponent implements OnInit {
   usuarioForm: FormGroup
   titulo: string = "Nuevo Usuario";
   tituloBoton:string ="Guardar"
+  correoOriginal: string;
 
   constructor(private formbuilder: FormBuilder,
             private servicio: UsuarioService,
@@ -48,6 +49,9 @@ export class CrearComponent implements OnInit {
           this.usuarioForm.controls['correoElectronico'].setValue(u.correoElectronico);
           this.usuarioForm.controls['activo'].setValue(u.activo);
           this.usuarioForm.controls['tipoUsuario'].setValue(u.tipoUsuario);
+
+          this.correoOriginal = u.correoElectronico;
+          this.usuarioForm.get('correoElectronico')?.setValue(u.correoElectronico);
         })
 
       this.titulo = "Editar Usuario";
@@ -97,20 +101,70 @@ export class CrearComponent implements OnInit {
 
   }
 
-  validarcorreo(event:any){
-
-    if (this.usuarioForm.controls['correoElectronico'].valid){
-
-      const correo = (event.target as HTMLInputElement).value;
-
-      this.servicio.validarcorreo(correo).subscribe(res => {
-        if(!res){
-          this.usuarioForm.controls['correoElectronico'].setErrors({ invalid: 'Correo ya esta registrado' });
-        }else{
-          this.usuarioForm.controls['correoElectronico'].setErrors(null);
-        }
-      })
-
+  validarcorreo(event: any) {
+    const correoFormControl = this.usuarioForm.get('correoElectronico');
+  
+    if (correoFormControl?.valid) {
+      const nuevoCorreo = (event.target as HTMLInputElement).value;
+  
+      // Verifica si el correo realmente ha cambiado
+      if (nuevoCorreo !== this.correoOriginal) {
+        this.servicio.validarcorreo(nuevoCorreo).subscribe(res => {
+          if (res) {
+            correoFormControl.setErrors({ correoInvalid: 'Correo ya está registrado' });
+          } else {
+            correoFormControl.setErrors(null);
+          }
+        });
+      }
     }
+  }
+
+  isValidField(field: string): boolean | null {
+    return (
+      this.usuarioForm.controls[field].errors &&
+      this.usuarioForm.controls[field].touched
+    );
+  }
+
+  getFieldError(field: string): string | null {
+    if (!this.usuarioForm.controls[field]) return null;
+
+    const errors = this.usuarioForm.controls[field].errors || {};
+
+    for (const key of Object.keys(errors)) {
+      switch (key) {
+        
+        case 'required':
+          return `${field} es requerido`;
+        
+        case 'numeroInvalido':
+          return `${field} tiene que ser númerico `;
+
+        case 'edadInvalida':
+          return `${field} tiene que ser mayor  18`;
+
+        case 'email':
+          return `${field} no tiene el formato correcto`;
+
+        case 'min':
+          return `${field} debe tener al menos 6 dolares`;
+
+        case 'minlength':
+            const minLength = errors['minlength']?.requiredLength;
+            return `debe tener al menos ${minLength} digitos`;
+          
+        case 'maxlength':
+              const maxLength = errors['maxlength']?.requiredLength;
+              return `debe tener con maximo ${maxLength} digitos`;
+
+        case 'documentoInvalid':
+          return `Cedula ya esta registrado`;
+
+        case 'correoInvalid':
+            return `Correo ya esta registrado`;
+      }
+    }
+    return null;
   }
 }

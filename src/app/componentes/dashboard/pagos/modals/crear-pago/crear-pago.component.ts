@@ -32,24 +32,32 @@ export class CrearPagoComponent implements OnInit {
   ngOnInit(): void {
 
     this.aportacionForm = this.formbuilder.group({
-      id: [''], //
-      fechaAportacion: [new Date() , Validators.required], 
-      cuotas: [0, Validators.required], 
-      cuotasFinados: [5, [Validators.required]], 
-      otrasAportaciones: [5, [Validators.required, Validators.min(5)]],  
-      descripcion: [''], 
-      metodoPago: ['', Validators.required], 
-      numeroTransaccion: [''], 
-      estadoPago: ['PAGADO', Validators.required], 
-      campoBusqueda: ['', Validators.required], 
+      id: [''],
+      fechaAportacion: [new Date(), Validators.required],
+      cuotas: [0, Validators.required],
+      cuotasFinados: [5, [Validators.required, Validators.min(5)]],
+      otrasAportaciones: [5, [Validators.required, Validators.min(5)]],
+      descripcion: [''],
+      metodoPago: ['', Validators.required],
+      numeroTransaccion: [''],
+      estadoPago: ['PAGADO', Validators.required],
+      campoBusqueda: ['', Validators.required],
       idSocio: ['', Validators.required],
     });
-
   
-    this.aportacionForm.get('cuotasFinados')?.setValidators(Validators.min(this.aportacionForm.get('cuotas')?.value));
+    
     this.aportacionForm.get('cuotasFinados')?.setValue(this.formatCurrency(this.aportacionForm.get('cuotas')?.value));
     this.aportacionForm.get('otrasAportaciones')?.setValue(this.formatCurrency(5));
+
+    this.aportacionForm.get('cuotas')?.valueChanges.subscribe(() => {
+
+      const cuotasValue = parseFloat(String(this.aportacionForm.get('cuotas')?.value).replace('$', '').replace(',', ''));
+
+      this.aportacionForm.get('cuotasFinados')?.setValidators([Validators.required, Validators.min(cuotasValue)]);
+      this.aportacionForm.get('cuotasFinados')?.updateValueAndValidity();
+  });
     
+
   
     if(this.datoedit){
       this.aportacionServicio.buscarAportacion(this.datoedit.id).subscribe(u => {
@@ -85,6 +93,18 @@ export class CrearPagoComponent implements OnInit {
     );
   }
 
+  cuotasFinadosValidator(control: FormControl) {
+    const cuotasValue = parseFloat(this.aportacionForm.get('cuotas')?.value.replace('$', '').replace(',', ''));
+    const cuotasFinadosValue = parseFloat(control.value.replace('$', '').replace(',', ''));
+
+    if (cuotasValue && cuotasFinadosValue && cuotasFinadosValue < cuotasValue) {
+        return { cuotasFinadosMenor: true };
+    }
+
+    return null;
+}
+
+
   getFieldError(field: string): string | null {
     if (!this.aportacionForm.controls[field]) return null;
 
@@ -98,10 +118,15 @@ export class CrearPagoComponent implements OnInit {
           return `No se encontro socio`;
         case 'min':
           return `Mayor a 6 dolares`;
+        case 'cuotasFinadosMenor':
+          return `Cuotas Finados no puede ser menor que Cuotas`;
       }
     }
     return null;
   }
+
+
+
 
   formatCurrency(value: number | string): string {
 
@@ -135,7 +160,7 @@ export class CrearPagoComponent implements OnInit {
    
       const cuotasFinados = parseFloat(this.aportacionForm.get('cuotasFinados')?.value.replace('$', '').replace(',', ''));
       const otrasAportaciones = parseFloat(this.aportacionForm.get('otrasAportaciones')?.value.replace('$', '').replace(',', ''));
-      const cuotas = parseFloat(this.aportacionForm.get('cuotas')?.value.replace('$', '').replace(',', ''));
+      const cuotas = parseFloat(this.formatCurrency(this.aportacionForm.get('cuotas')?.value).replace('$', '').replace(',', ''));
     
       const pago: Aportacion = {
         fechaAportacion: this.aportacionForm.get('fechaAportacion')?.value,

@@ -62,7 +62,7 @@ export class AfiliadosService {
     return this.http.get<number[]>(`${baseUrl}/apifm/aportaciones/aportacion-aho?socioId=${socioId}`);
   }
 
-    getAportacionesPorAnioYIdSocio(year: number, socioId: number): Observable<Aportacion[]> {
+  getAportacionesPorAnioYIdSocio(year: number, socioId: number): Observable<Aportacion[]> {
     return this.http.get<Aportacion[]>(`${baseUrl}/apifm/aportaciones/por-ano-y-socio?year=${year}&socioId=${socioId}`);
   }
 }

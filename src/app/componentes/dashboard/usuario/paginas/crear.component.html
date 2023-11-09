@@ -10,14 +10,9 @@
             <mat-form-field  appearance="fill">
                 <mat-label>Nombre</mat-label>
                 <input matInput formControlName="nombreUsuario">
-            <mat-error class="mensaje" *ngIf="usuarioForm.get('nombreUsuario')?.invalid && 
-            usuarioForm.get('nombreUsuario')?.errors && 
-            (usuarioForm.get('nombreUsuario')?.dirty || usuarioForm.get('nombreUsuario')?.touched)">
-                <small class="text-danger"
-                *ngIf="usuarioForm.get('nombreUsuario')?.hasError('required')">
-                El campo nombre es requerido
-                </small>
-            </mat-error>
+                <mat-error *ngIf="isValidField('nombreUsuario')">
+                    {{ getFieldError('nombreUsuario') }}
+                </mat-error>
         </mat-form-field>
         </div>
 
@@ -44,13 +39,9 @@
         <mat-form-field  appearance="fill">
             <mat-label>Correo</mat-label>
             <input type="email" formControlName="correoElectronico" matInput placeholder="admin@idat.com" (keyup)="validarcorreo($event)">
-            <mat-error class="mensaje" *ngIf="usuarioForm.get('correoElectronico')?.invalid && 
-            usuarioForm.get('correoElectronico')?.errors && 
-            (usuarioForm.get('correoElectronico')?.dirty || usuarioForm.get('correoElectronico')?.touched)">
-            <mat-error *ngIf="usuarioForm.get('correoElectronico')?.hasError('required')">Campo correo es requerido</mat-error>
-            <mat-error  *ngIf="usuarioForm.get('correoElectronico')?.hasError('email')">Campo correo no tiene el formato</mat-error>               
-            <mat-error  *ngIf="usuarioForm.get('correoElectronico')?.hasError('invalid')">Correo ya se encuentra registrado</mat-error>               
-        </mat-error>
+            <mat-error *ngIf="isValidField('correoElectronico')">
+                {{ getFieldError('correoElectronico') }}
+            </mat-error>
         </mat-form-field>
     </div>
     
@@ -62,11 +53,8 @@
             <mat-form-field  appearance="fill">
                 <mat-label>Contraseña</mat-label>
                 <input type="password"  formControlName="contrasena" matInput>
-                <mat-error class="mensaje" *ngIf="usuarioForm.get('contrasena')?.invalid && 
-                usuarioForm.get('contrasena')?.errors && 
-                (usuarioForm.get('contrasena')?.dirty || usuarioForm.get('contrasena')?.touched)">
-                <mat-error *ngIf="usuarioForm.get('contrasena')?.hasError('required')">Campo contraseña es requerido</mat-error>
-                <mat-error  *ngIf="usuarioForm.get('contrasena')?.hasError('minlength')">Campo minimo 5 digitos</mat-error>                 
+                <mat-error *ngIf="isValidField('contrasena')">
+                    {{ getFieldError('contrasena') }}
                 </mat-error>
             </mat-form-field>
         </div>
