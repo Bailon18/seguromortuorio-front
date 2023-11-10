@@ -32,4 +32,8 @@ export class AportacionService {
   eliminarAportacion(aportacionId: number): Observable<void> {
     return this.http.delete<void>(`${baseUrl}/apifm/aportaciones/${aportacionId}`);
   }
+
+  getReportes(): Observable<any[]> {
+    return this.http.get<any[]>(`${baseUrl}/apifm/aportaciones/reportes`);
+  }
 }
