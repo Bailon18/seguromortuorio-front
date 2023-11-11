@@ -18,6 +18,7 @@ import { PagosComponent } from './pagos/pagos.component';
 import { CrearPagoComponent } from './pagos/modals/crear-pago/crear-pago.component';
 import { DetallePdfComponent } from './pagos/modals/detalle-pdf/detalle-pdf.component';
 import { ReporteAportacionesComponent } from './afiliados/modals/reporte-aportaciones/reporte-aportaciones.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { ReporteAportacionesComponent } from './afiliados/modals/reporte-aportac
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxChartsModule
    
   ],
   exports: [

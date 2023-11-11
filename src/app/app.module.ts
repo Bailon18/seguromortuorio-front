@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http'; // add this line
 import { FormsModule } from '@angular/forms';
 import { NgToastModule } from 'ng-angular-popup';
+import { NgxChartsModule } from '@swimlane/ngx-charts'
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { NgToastModule } from 'ng-angular-popup';
     HttpClientModule,
     FormsModule,
     NgToastModule,
-   
+    NgxChartsModule
   ],
   bootstrap: [AppComponent]
 })

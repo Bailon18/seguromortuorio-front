@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import baseUrl from 'src/app/helpers';
 import { Aportacion } from '../model/aportaciones';
 
@@ -36,4 +36,26 @@ export class AportacionService {
   getReportes(): Observable<any[]> {
     return this.http.get<any[]>(`${baseUrl}/apifm/aportaciones/reportes`);
   }
+
+
+  getReportesMeses(): Observable<any[]> {
+    return this.http.get<any[]>(`${baseUrl}/apifm/aportaciones/montos-por-mes`);
+  }
+
+  adaptarDatosParaGrafico(): Observable<any[]> {
+    return this.getReportesMeses().pipe(
+      map((data: any[]) => {
+        const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  
+        return meses.map((mes, index) => ({
+          name: mes,
+          value: data[index] ? data[index][1] : 0
+        }));
+      })
+    );
+  }
+  
+  
+  
+  
 }

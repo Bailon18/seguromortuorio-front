@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { AportacionService } from '../pagos/services/aportaciones.service';
 import Chart from 'chart.js/auto';
 
@@ -6,30 +6,56 @@ import Chart from 'chart.js/auto';
   selector: 'app-inicio',
   templateUrl: './inicio.component.html'
 })
-export class InicioComponent implements OnInit, OnDestroy {
+export class InicioComponent implements OnInit {
 
   reportes: any[] = [];
   areaChart: Chart;
   pieChart: Chart;
+  view: [number, number] = [0, 0];
 
-  constructor(private reportesService: AportacionService) { }
+  @ViewChild('chartContainer') chartContainer!: ElementRef;
+
+  single: any[] = [];
+
+  // options
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = true;
+  showXAxisLabel = true;
+  xAxisLabel = 'Meses';
+  showYAxisLabel = true;
+  yAxisLabel = 'Aportaciones $';
+
+  customScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
+    name: 'Legenda' 
+  };
+  constructor(private reportesService: AportacionService) { 
+
+    Object.assign(this, { single:this.single });
+  }
 
   ngOnInit(): void {
     this.obtenerReportes();
   }
 
-  ngOnDestroy(): void {
-    // Destruir gráficos al salir del componente para liberar recursos
-    this.destruirGraficos();
-  }
 
   obtenerReportes() {
     this.reportesService.getReportes().subscribe(
       (data) => {
         this.reportes = data;
-        console.log(data);
-        // Después de obtener los reportes, muestra los gráficos
-        this.mostrarGraficos();
+        this.reportesService.adaptarDatosParaGrafico().subscribe(
+          (adaptedData) => {
+            this.single = adaptedData;
+            console.log(this.single);
+            this.setViewSize();
+            this.mostrarGraficos();
+          },
+          (error) => {
+            console.error('Error al adaptar los datos para el gráfico', error);
+          }
+        );
       },
       (error) => {
         console.error('Error al obtener los reportes', error);
@@ -38,52 +64,11 @@ export class InicioComponent implements OnInit, OnDestroy {
   }
 
   mostrarGraficos() {
-    // Destruir gráficos existentes si es necesario
-    this.destruirGraficos();
-
-    // Datos de ejemplo (reemplaza esto con tus datos reales)
-    const data = [10, 20, 30, 40, 50];
-
-    // Configuración del gráfico de área
-    this.areaChart = new Chart('myAreaChart', {
-      type: 'line',
-      data: {
-        labels: ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5'],
-        datasets: [
-          {
-            label: 'Earnings Overview',
-            data: data,
-            fill: true,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1,
-          },
-        ],
-      },
-    });
-
-    // Configuración del gráfico de pastel
-    this.pieChart = new Chart('myPieChart', {
-      type: 'doughnut',
-      data: {
-        labels: ['Direct', 'Social', 'Referral'],
-        datasets: [
-          {
-            data: [30, 40, 30],
-            backgroundColor: ['rgb(75, 192, 192)', 'rgb(255, 99, 132)', 'rgb(255, 205, 86)'],
-          },
-        ],
-      },
-    });
   }
 
-  destruirGraficos() {
-    // Destruir gráficos existentes si es necesario
-    if (this.areaChart) {
-      this.areaChart.destroy();
-    }
-
-    if (this.pieChart) {
-      this.pieChart.destroy();
-    }
+  setViewSize(): void {
+   
+      this.view = [Math.max(Math.floor(this.single.length / 5) * 150, this.chartContainer.nativeElement.offsetWidth), 300];
+    
   }
 }

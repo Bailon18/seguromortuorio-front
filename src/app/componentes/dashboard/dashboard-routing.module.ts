@@ -37,11 +37,15 @@ const routes: Routes = [
         data: { expectedRole: 'ADMINISTRADOR' },
         component: UsuarioComponent,
       },
-      // Elimina la siguiente línea:
-      // { path: '', redirectTo: 'citas', pathMatch: 'full' },
     ],
   },
+  // Agregar una redirección adicional para asegurar que 'inicio' sea la ruta por defecto
+  {
+    path: '**',
+    redirectTo: 'inicio',
+  },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
