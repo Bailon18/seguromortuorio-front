@@ -89,6 +89,12 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
     });
   }
 
+
+  exportarFamiliaresAPdf(){
+
+    
+  }
+
   editarAfiliado(fila: any){
     this.dialog.open(CrearSocioComponent, {
       width:'600px',

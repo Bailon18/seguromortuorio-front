@@ -9,6 +9,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { Socio } from '../../model/socio';
 import swall from 'sweetalert2';
 
+
 @Component({
   templateUrl: './crear-familiar.component.html',
   styleUrls: ['./crear-familiar.component.css']
@@ -21,7 +22,6 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
   selectedFile: File | null | undefined = null;
   nuevofamilia?: Familiar;
   modoCrear:boolean = true
-
   estadoFiltro:any;
 
   @ViewChild('tabGroup') tabGroup: MatTabGroup;
@@ -30,6 +30,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
 
   columnas: string[] = ['NOMBRE', 'CEDULA', 'PARENTESCO', 'ACCIONES'];
   dataSource = new MatTableDataSource<Familiar>;
+  familiares: Familiar[];
 
   constructor(
     private formbuilder: FormBuilder,
@@ -64,6 +65,8 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
     this.paginator._intl.nextPageLabel = 'Siguiente';
     this.paginator._intl.previousPageLabel = 'Atras';
     this.dataSource.paginator = this.paginator;
+
+
   }
 
   aplicarFiltro(event: Event) {
@@ -275,7 +278,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       }
     })
 
-    
+
   }
 
   actualizarEdad(event: any) {
@@ -341,7 +344,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       switch (key) {
         case 'required':
           return `${field} es requerido`;
-        
+
         case 'numeroInvalido':
           return `${field} tiene que ser númerico `;
 
@@ -360,7 +363,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
         case 'minlength':
             const minLength = errors['minlength']?.requiredLength;
             return `debe tener al menos ${minLength} digitos`;
-          
+
         case 'maxlength':
               const maxLength = errors['maxlength']?.requiredLength;
               return `debe tener con maximo ${maxLength} digitos`;
@@ -368,4 +371,24 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
     }
     return null;
   }
+
+  // exportarAPdf() {
+  //   this.mostrarElemento = true;
+  //     const options = {
+  //         margin: 10,
+  //         filename: 'ListaFamiliares.pdf',
+  //         image: { type: 'jpeg', quality: 0.98 },
+  //         html2canvas: { scale: 2 },
+  //         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  //     };
+
+  //     const element = document.getElementById('tabla-familiares'); // Agrega un ID a tu tabla
+
+  //     html2pdf()
+  //         .from(element)
+  //         .set(options)
+  //         .save();
+  // }
+
+
 }

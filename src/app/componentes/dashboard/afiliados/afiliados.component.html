@@ -22,7 +22,7 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="col-4" style="margin-top: 18px;">
-                                    <!-- <mat-checkbox color="primary" class="example-margin" [(ngModel)]="estadoFiltro" (click)="mostrarInactivos()">Mostrar Inactivos</mat-checkbox> -->
+                                  
                                 </div>
                             </div>
                         </div>
@@ -36,13 +36,13 @@
                             <th mat-header-cell *matHeaderCellDef> ID</th>
                             <td mat-cell *matCellDef="let fila"> {{fila.id}} </td>
                             </ng-container>
-                        
+
                             <ng-container matColumnDef="FECHA DE INSCRIPCION">
                                 <th mat-header-cell *matHeaderCellDef> Fecha de inscripción </th>
                                 <td mat-cell *matCellDef="let fila"> {{fila.fechaInscripcion | date:'yyyy-MM-dd HH:mm'}} </td>
                             </ng-container>
-                              
-                    
+
+
                             <ng-container matColumnDef="NOMBRE">
                                 <th mat-header-cell *matHeaderCellDef> Nombres </th>
                                 <td mat-cell *matCellDef="let fila"> {{fila.nombre}} </td>
@@ -57,13 +57,13 @@
                                 <th mat-header-cell *matHeaderCellDef> Documento de identidad </th>
                                 <td mat-cell *matCellDef="let fila"> {{fila.documentoIdentidad}} </td>
                             </ng-container>
-                            
+
                             <ng-container matColumnDef="TELEFONO">
                                 <th mat-header-cell *matHeaderCellDef> Teléfono </th>
                                 <td mat-cell *matCellDef="let fila"> {{fila.telefono}} </td>
                             </ng-container>
-                        
- 
+
+
                             <ng-container matColumnDef="ACCIONES">
                                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                                 <td mat-cell *matCellDef="let fila">
@@ -72,11 +72,11 @@
                                         <mat-icon class="danger-icon">delete</mat-icon>
                                     </a>
                                     <a class="pointer iconosAccion" matTooltip="Ver Familiares" (click)="abrirDialogoFamiliar(fila)"><mat-icon class="primary-icon">group</mat-icon></a>
-                                    <a class="pointer iconosAccion" matTooltip="Visualizar Reporte" (click)="abrirDialogoReporte(fila)"><mat-icon class="info-icon">description</mat-icon></a>
+                                    <a class="pointer iconosAccion" matTooltip="Ver Reporte de pagos" (click)="abrirDialogoReporte(fila)"><mat-icon class="info-icon">description</mat-icon></a>
                                 </td>
-                                
+
                             </ng-container>
-                        
+
                             <tr mat-header-row *matHeaderRowDef="columnas"></tr>
                             <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
                         </table>

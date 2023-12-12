@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-header" style="background-color: rgb(47, 64, 83); color: white;">
+    <i class="fas fa-users"></i> Listado de Familiares
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Documento</th>
+            <th>Parentesco</th>
+            <th>Edad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let familiar of familiares">
+            <td>{{ familiar.nombre }}</td>
+            <td>{{ familiar.apellido }}</td>
+            <td>{{ familiar.documentoIdentidad }}</td>
+            <td>{{ familiar.tipoParentesco }}</td>
+            <td>{{ familiar.edad }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text-end mt-3">
+      <button class="btn btn-primary" (click)="exportarAPdf()">Exportar a PDF</button>
+    </div>
+  </div>
+</div>

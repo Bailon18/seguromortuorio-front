@@ -23,8 +23,8 @@
                                           </mat-form-field>
                                       </div>
                                       <div class="col-4" style="margin-top: 18px;">
-                                          <!-- <mat-checkbox color="primary" class="example-margin" [(ngModel)]="estadoFiltro" (click)="mostrarInactivos()">Mostrar Inactivos</mat-checkbox> -->
-                                      </div>
+                                        <!-- <button class="btn btn-primary" >Exportar a PDF</button> -->
+                                    </div>
                                   </div>
                               </div>
                               <div class="col-6 text-end">
@@ -75,6 +75,8 @@
           </div>
       </mat-card>
     </mat-tab>
+
+
 
     <!-- Agregar o editar Familiar -->
     <mat-tab label=" ">
@@ -191,7 +193,7 @@
                       <mat-error *ngIf="isValidField('archivo')">
                         {{ getFieldError('archivo') }}
                     </mat-error>
-                  
+
               </div>
 
               <!-- Botón para descargar archivo (solo en modo editar) -->
@@ -254,4 +256,8 @@
           </div>
       </form>
     </mat-tab>
-  </mat-tab-group>
+
+
+
+
+</mat-tab-group>

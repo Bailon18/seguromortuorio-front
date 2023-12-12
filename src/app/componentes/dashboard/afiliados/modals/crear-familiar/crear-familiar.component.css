@@ -3,12 +3,12 @@
       display: none;
     }
   }
-  
+
 
   table {
     width: 100%;
   }
-  
+
   .iconosAccion {
   margin: 3px;
   }
@@ -21,11 +21,11 @@
   .pdf-icon{
   color:rgb(97, 74, 74)
   }
-  
+
   .example-margin {
   margin: 0 10px;
   }
-  
+
 
 
   .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
@@ -43,7 +43,7 @@
 mat-form-field {
     width: 100%;
   }
-  
+
 
 
 .mat-dialog-content {
@@ -81,4 +81,10 @@ mat-form-field {
     margin-right: 8px;
 }
 
-  
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
