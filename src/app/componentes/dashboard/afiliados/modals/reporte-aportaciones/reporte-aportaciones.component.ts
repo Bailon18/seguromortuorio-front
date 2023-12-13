@@ -6,6 +6,9 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Aportacion } from '../../../pagos/model/aportaciones';
 import { AfiliadosService } from '../../services/afiliados.service';
 import * as html2pdf from 'html2pdf.js';
+import jsPDF from 'jspdf';
+import autoTable, { Styles } from 'jspdf-autotable'; 
+
 
 @Component({
   templateUrl: './reporte-aportaciones.component.html',
@@ -48,12 +51,18 @@ export class ReporteAportacionesComponent implements OnInit {
     }
   }
 
-  getMonthName(month: any): string {
+  getMonthName(date: any): string {
     const monthNames = [
       'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ];
-    return monthNames[month - 1];
+    
+    const parsedDate = new Date(date);
+    if (!isNaN(parsedDate.getTime())) {
+      return monthNames[parsedDate.getMonth()];
+    } else {
+      return ''; // O devuelve un valor por defecto o maneja el error según tu lógica
+    }
   }
   
 
@@ -73,24 +82,40 @@ export class ReporteAportacionesComponent implements OnInit {
     });
   }
 
-  descargarBoleta(event: any) {
 
-    event.preventDefault();
+ 
+  generatePDF(): void {
 
-    const options = {
-      margin: 10,
-      filename: 'Reporte-'+this.nombresocio+'.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    const element = document.getElementById('cuerpoboleta');
-
-    html2pdf()
-      .from(element)
-      .set(options)
-      .save();
+    const doc = new jsPDF();
+  
+    doc.setFontSize(17);
+    doc.text('Listado de Aportaciones', 15, 15);
+  
+    const headers = ['Fecha de Pago', 'Método de Pago', 'Mes de Pago', 'Total Cuota'];
+    const data = this.aportacionessocio.map(aportacion => [
+      new Date(aportacion.fechaAportacion).toLocaleDateString(),
+      aportacion.metodoPago,
+      this.getMonthName(aportacion.fechaAportacion), // esto me sale Undefined!
+      '$.' + (aportacion.cuotasFinados + aportacion.otrasAportaciones).toFixed(2) 
+    ]);
+  
+    autoTable(doc, {
+      head: [headers],
+      body: data,
+      startY: 25,
+      headStyles: { fillColor: [47, 64, 83] }
+    });
+  
+    const space = 3; 
+    const startYText = 25 + data.length * 10 + space; 
+  
+    const aportacionesAnio = this.costoTotal.toFixed(2);
+  
+    doc.setFontSize(11);
+    doc.text(`Aportaciones del año: ${this.selectedYear}: $ `, 15, startYText + space);
+    doc.text(aportacionesAnio, 75, startYText + space);
+  
+    doc.save(`Reporte-${this.nombresocio}.pdf`);
   }
 
 }

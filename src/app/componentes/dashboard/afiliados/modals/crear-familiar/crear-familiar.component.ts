@@ -8,7 +8,7 @@ import { AfiliadosService } from '../../services/afiliados.service';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Socio } from '../../model/socio';
 import swall from 'sweetalert2';
-
+import * as html2pdf from 'html2pdf.js';
 
 @Component({
   templateUrl: './crear-familiar.component.html',
@@ -79,6 +79,7 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
       next: res => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
+        this.familiares = res;
         },
       error: error => {
         console.log("Ocurrio un error en la carga")
@@ -89,6 +90,10 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
 
   resetearFormulario() {
     this.changeTab(0);
+  }
+
+  verpdf(){
+    this.changeTab(2);
   }
 
   nuevoFamiliarForm(){
@@ -372,23 +377,27 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
     return null;
   }
 
-  // exportarAPdf() {
-  //   this.mostrarElemento = true;
-  //     const options = {
-  //         margin: 10,
-  //         filename: 'ListaFamiliares.pdf',
-  //         image: { type: 'jpeg', quality: 0.98 },
-  //         html2canvas: { scale: 2 },
-  //         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  //     };
 
-  //     const element = document.getElementById('tabla-familiares'); // Agrega un ID a tu tabla
+  cancelar(){
+    this.changeTab(0);
+  }
 
-  //     html2pdf()
-  //         .from(element)
-  //         .set(options)
-  //         .save();
-  // }
+  exportarAPdf() {
+    const options = {
+        margin: 10,
+        filename: 'ListaFamiliares.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    const element = document.getElementById('tabla-familiares'); 
+
+    html2pdf()
+        .from(element)
+        .set(options)
+        .save();
+  }
 
 
 }
