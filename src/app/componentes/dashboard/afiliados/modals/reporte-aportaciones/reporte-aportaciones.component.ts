@@ -16,12 +16,11 @@ import autoTable, { Styles } from 'jspdf-autotable';
 })
 export class ReporteAportacionesComponent implements OnInit {
 
-  selectedYear: number; 
   costoTotal: number;
-  ahoaportacion:number[] = [];
   nombresocio: string = "";
-  fechaactual: Date  = new Date();
   aportacionessocio : Aportacion[];
+  fechaInicio: Date;
+  fechaFin: Date;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public datoedit : any,
@@ -29,27 +28,32 @@ export class ReporteAportacionesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.nombresocio = this.datoedit.nombre + ' ' + this.datoedit.apellido; 
-    this.afiliacionServicio.getAportacionAhoSocio(this.datoedit.id).subscribe({
-      next:(res) =>{
-        this.ahoaportacion = res;
-        if (this.ahoaportacion && this.ahoaportacion.length > 0) {
-          this.selectedYear = this.ahoaportacion[0];
-          this.cargarAportacionesPorAnioYIdSocio(this.selectedYear, this.datoedit.id)
-        }
-      },
-      error:(err) =>{
 
-      }
-    })
+    this.nombresocio = this.datoedit.nombre
   }
 
-  buscarAportacionesPorAnio(aho: number): void {
-    this.selectedYear = aho
-    if (this.selectedYear) {
-      this.cargarAportacionesPorAnioYIdSocio(this.selectedYear, this.datoedit.id)
+  buscarAportacionesPorFecha(): void {
+    if (this.fechaInicio && this.fechaFin) {
+      const formattedStartDate = this.formatDate(this.fechaInicio);
+      const formattedEndDate = this.formatDate(this.fechaFin);
+      
+      this.afiliacionServicio.getAportacionesPorFechaYSocio(this.datoedit.id, formattedStartDate, formattedEndDate)
+        .subscribe({
+          next: (aportaciones) => {
+            this.aportacionessocio = aportaciones;
+
+            const sumaCuotasFinados = this.aportacionessocio.reduce((total, aportacion) => total + aportacion.cuotasFinados, 0);
+            const sumaOtrasAportaciones = this.aportacionessocio.reduce((total, aportacion) => total + aportacion.otrasAportaciones, 0);
+
+            this.costoTotal = sumaCuotasFinados + sumaOtrasAportaciones;
+          },
+          error: (err) => {
+          }
+        });
+    } else {
     }
   }
+
 
   getMonthName(date: any): string {
     const monthNames = [
@@ -61,31 +65,20 @@ export class ReporteAportacionesComponent implements OnInit {
     if (!isNaN(parsedDate.getTime())) {
       return monthNames[parsedDate.getMonth()];
     } else {
-      return ''; // O devuelve un valor por defecto o maneja el error según tu lógica
+      return '';
     }
   }
   
-
-  cargarAportacionesPorAnioYIdSocio(year: number, socioId: number) {
-    this.afiliacionServicio.getAportacionesPorAnioYIdSocio(year, socioId).subscribe({
-      next: (aportaciones) => {
-        this.aportacionessocio = aportaciones;
-
-        const sumaCuotasFinados = this.aportacionessocio.reduce((total, aportacion) => total + aportacion.cuotasFinados, 0);
-        const sumaOtrasAportaciones = this.aportacionessocio.reduce((total, aportacion) => total + aportacion.otrasAportaciones, 0);
-
-        // Suma total
-        this.costoTotal = sumaCuotasFinados + sumaOtrasAportaciones;
-      },
-      error: (err) => {
-      }
-    });
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
 
- 
-  generatePDF(): void {
 
+  generatePDF(): void {
     const doc = new jsPDF();
   
     doc.setFontSize(17);
@@ -95,8 +88,8 @@ export class ReporteAportacionesComponent implements OnInit {
     const data = this.aportacionessocio.map(aportacion => [
       new Date(aportacion.fechaAportacion).toLocaleDateString(),
       aportacion.metodoPago,
-      this.getMonthName(aportacion.fechaAportacion), // esto me sale Undefined!
-      '$.' + (aportacion.cuotasFinados + aportacion.otrasAportaciones).toFixed(2) 
+      this.getMonthName(aportacion.fechaAportacion),
+      '$.' + (aportacion.cuotasFinados + aportacion.otrasAportaciones).toFixed(2)
     ]);
   
     autoTable(doc, {
@@ -106,16 +99,15 @@ export class ReporteAportacionesComponent implements OnInit {
       headStyles: { fillColor: [47, 64, 83] }
     });
   
-    const space = 3; 
-    const startYText = 25 + data.length * 10 + space; 
+    const space = 3;
+    const startYText = 25 + data.length * 10 + space;
   
     const aportacionesAnio = this.costoTotal.toFixed(2);
   
     doc.setFontSize(11);
-    doc.text(`Aportaciones del año: ${this.selectedYear}: $ `, 15, startYText + space);
-    doc.text(aportacionesAnio, 75, startYText + space);
-  
-    doc.save(`Reporte-${this.nombresocio}.pdf`);
+    doc.text(`Aportaciones de ${this.formatDate(this.fechaInicio)} a ${this.formatDate(this.fechaFin)}: $ ${aportacionesAnio}`, 15, startYText + space);
+    doc.save(`Reporte-Aportaciones-${this.nombresocio}.pdf`);
   }
+  
 
 }

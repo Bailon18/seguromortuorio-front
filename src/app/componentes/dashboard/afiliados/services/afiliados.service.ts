@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import baseUrl from 'src/app/helpers';
@@ -64,5 +64,10 @@ export class AfiliadosService {
 
   getAportacionesPorAnioYIdSocio(year: number, socioId: number): Observable<Aportacion[]> {
     return this.http.get<Aportacion[]>(`${baseUrl}/apifm/aportaciones/por-ano-y-socio?year=${year}&socioId=${socioId}`);
+  }
+
+  getAportacionesPorFechaYSocio(socioId: number, startDate: string, endDate: string): Observable<Aportacion[]> {
+    const url = `${baseUrl}/apifm/aportaciones/filtro/${socioId}?startDate=${startDate}&endDate=${endDate}`;
+    return this.http.get<Aportacion[]>(url);
   }
 }

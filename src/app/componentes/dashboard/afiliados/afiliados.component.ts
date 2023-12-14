@@ -7,6 +7,8 @@ import { AfiliadosService } from './services/afiliados.service';
 import { CrearSocioComponent } from './modals/crear-socio/crear-socio.component';
 import { CrearFamiliarComponent } from './modals/crear-familiar/crear-familiar.component';
 import { ReporteAportacionesComponent } from './modals/reporte-aportaciones/reporte-aportaciones.component';
+import jsPDF from 'jspdf';
+import autoTable, { Styles } from 'jspdf-autotable'; 
 
 
 @Component({
@@ -21,6 +23,7 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
 
   columnas: string[] = ['ID', 'FECHA DE INSCRIPCION',  'NOMBRE', 'APELLIDOS', 'DOCUMENTO IDENTIDAD', 'TELEFONO','ACCIONES'];
   dataSource = new MatTableDataSource<Socio>;
+  socios: Socio[] = [];
 
   constructor(
     private servicioAfiliacion: AfiliadosService,
@@ -47,8 +50,8 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
   listarAfiliaciones(){
     return this.servicioAfiliacion.getAfiliaciones().subscribe({
       next: res => {
-        console.log("se actualizo "+res)
         let filtrado = res.filter(u => u.activo == true)
+        this.socios = res
         this.dataSource = new MatTableDataSource(filtrado)
         this.dataSource.paginator = this.paginator;
         },
@@ -106,5 +109,32 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
 
   bloquearAfiliado(fila: any){
 
+  }
+
+  verReporteSocios(){
+
+      const doc = new jsPDF();
+
+      doc.setFontSize(17);
+      doc.text('Listado de Socios', 15, 15);
+
+      const headers = ['Documento Identidad', 'Nombre', 'Apellido', 'Edad', 'Dirección', 'Correo Electrónico'];
+      const data = this.socios.map(socio => [
+        socio.documentoIdentidad,
+        socio.nombre,
+        socio.apellido,
+        socio.edad.toString() + ' años',
+        socio.direccion,
+        socio.correoElectronico
+      ]);
+
+      autoTable(doc, {
+        head: [headers],
+        body: data,
+        startY: 25,
+        headStyles: { fillColor: [47, 64, 83] }
+      });
+
+      doc.save('Reporte-Socios.pdf');
   }
 }
