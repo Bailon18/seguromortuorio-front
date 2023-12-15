@@ -21,11 +21,11 @@
                                         <input matInput (keyup)="aplicarFiltro($event)" style="width: 100px;" placeholder="Ejemplo.. Bailon" #input>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-4 d-flex align-items-center justify-content-end">
-                                    <button class="btn"  (click)="verReporteSocios()" style="margin-top: -5px; background-color: rgb(187, 121, 0); color:white ">
-                                        <i class="fas fa-file-pdf"></i> Generar PDF
+                                <div class="col-4 d-flex align-items-center justify-content-start">
+                                    <button class="btn" (click)="verReporteSocios()" style="margin-top: -5px; background-color: rgb(187, 121, 0); color:white">
+                                        <i class="fas fa-file-pdf"></i> Exportar Lista de Socios
                                     </button>
-                                </div>                                
+                                </div>                                                            
                             </div>
                         </div>
                         <div class="col-6 text-end">
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <br>      
-                    <div class="mat-elevation-z8">
+                    <div class="mat-elevation-z8" style="max-height: 400px; overflow-y: auto;">
                         <table mat-table [dataSource]="dataSource">
                             <ng-container matColumnDef="ID">
                             <th mat-header-cell *matHeaderCellDef> ID</th>

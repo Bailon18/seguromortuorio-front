@@ -13,13 +13,13 @@ import swall from 'sweetalert2';
   styleUrls: ['./pagos.component.css']
 })
 export class PagosComponent implements OnInit {
-
   estadoFiltro:any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   columnas: string[] = ['ID', 'SOCIO', 'FECHA PAGO',  'CUOTA', 'CUOTA FINADO', 'OTRAS APORTACIONES', 'ESTADO DE PAGO','ACCIONES'];
   dataSource = new MatTableDataSource<Aportacion>;
+  dataSourceCopy: Aportacion[] = []; // Copia de la fuente de datos original
 
   constructor(
     private servicioAportacion: AportacionService,
@@ -38,21 +38,43 @@ export class PagosComponent implements OnInit {
   }
 
   aplicarFiltro(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+
+    // Aplicar filtro personalizado para campos anidados
+    this.dataSource.filterPredicate = (data: Aportacion, filter: string) => {
+      return (
+        data.socio.nombre.toLowerCase().includes(filter) ||
+        data.fechaAportacion.toString().toLowerCase().includes(filter) ||
+        data.socio.apellido.toLowerCase().includes(filter) ||
+        data.socio.documentoIdentidad.includes(filter) ||
+        data.estadoPago.toUpperCase() === filter.toUpperCase() || 
+        data.metodoPago.toUpperCase() === filter.toLowerCase() ||
+        parseFloat(data.cuotas.toString()) === parseFloat(filter) || 
+        parseFloat(data.cuotasFinados.toString()) === parseFloat(filter) ||
+        parseFloat(data.otrasAportaciones.toString()) === parseFloat(filter) 
+      );
+    };
+    
+
+    // Aplicar filtro a la copia de la fuente de datos original
+    this.dataSource.filter = filterValue;
   }
 
-  listarAportaciones(){
+  listarAportaciones() {
     return this.servicioAportacion.getAportaciones().subscribe({
       next: res => {
-        this.dataSource = new MatTableDataSource(res)
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSourceCopy = res; // Copiar la fuente de datos original
         this.dataSource.paginator = this.paginator;
-        },
+      },
       error: error => {
-        console.log("Ocurrio un error en la carga")
+        console.log("Ocurrió un error en la carga");
       }
-      }
-    )
+    });
   }
 
   abrirDialogoPdfDettale(fila: any){
@@ -111,5 +133,4 @@ export class PagosComponent implements OnInit {
       
     });
   }
-
 }

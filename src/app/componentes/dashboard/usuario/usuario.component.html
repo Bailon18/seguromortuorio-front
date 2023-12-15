@@ -30,7 +30,7 @@
                             <button class="btn btn-primary" (click)="abrirDialogoNuevoUsuario()">Nuevo Usuario</button>
                         </div>
                     </div>
-                    <div class="mat-elevation-z8">
+                    <div class="mat-elevation-z8" style="max-height: 400px; overflow-y: auto;">
                         <table mat-table [dataSource]="dataSource">
                             <ng-container matColumnDef="ID">
                             <th mat-header-cell *matHeaderCellDef> idUsuario</th>

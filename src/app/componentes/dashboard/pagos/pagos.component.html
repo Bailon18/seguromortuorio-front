@@ -12,24 +12,28 @@
         <div class="row">
             <div class="col">
                 <mat-card-content>
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-6">
-                            <div class="row">
+                            <div class="row align-items-center">
                                 <div class="col-8">
                                     <mat-form-field style="width: 100%;">
                                         <mat-label>Filtro</mat-label>
                                         <input matInput (keyup)="aplicarFiltro($event)"  style="width: 100px;" placeholder="Ejemplo.. Bailon" #input>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-4" style="margin-top: 18px;">
-                                </div>
+                                <div class="col-4 d-flex align-items-center justify-content-start">
+                                    <button class="btn" style="margin-top: -5px; background-color: rgb(187, 121, 0); color:white">
+                                        <i class="fas fa-file-pdf"></i> Generar Reporte Personalizado
+                                    </button>
+                                </div>                                
                             </div>
                         </div>
                         <div class="col-6 text-end">
                             <button class="btn btn-primary" (click)="abrirDialogoNuevoAportacion()">Nuevo Pago</button>
                         </div>
                     </div>
-                    <div class="mat-elevation-z8">
+                    <br>
+                    <div class="mat-elevation-z8" style="max-height: 400px; overflow-y: auto;">
                         <table mat-table [dataSource]="dataSource">
                             <ng-container matColumnDef="ID">
                             <th mat-header-cell *matHeaderCellDef> ID</th>
@@ -86,7 +90,7 @@
                             <tr mat-header-row *matHeaderRowDef="columnas"></tr>
                             <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
                         </table>
-                        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                        <mat-paginator [pageSizeOptions]="[5, 10]"
                             aria-label="">
                         </mat-paginator>
                     </div>
