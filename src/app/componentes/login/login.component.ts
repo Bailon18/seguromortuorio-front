@@ -67,17 +67,6 @@ export class LoginComponent implements OnInit {
   }
 
   setServicioRol(rol: any) {
-    // swall.fire({
-    //   html: `${this.usuario.nombres.toUpperCase()} ${
-    //     this.usuario.apellidos
-    //   } Iniciastes sesión como: <strong>${rol}</strong>`,
-    //   confirmButtonColor: '#0275d8',
-    // });
-    // this.servicio.setRolSesion(rol).subscribe({
-    //   next: (res) => {
-    //     localStorage.setItem('rol', JSON.stringify(res));
-    //   },
-    // });
-    // this.router.navigate(['dashboard']);
+
   }
 }

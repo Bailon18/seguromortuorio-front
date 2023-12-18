@@ -7,6 +7,7 @@ import { AportacionService } from './services/aportaciones.service';
 import { CrearPagoComponent } from './modals/crear-pago/crear-pago.component';
 import { DetallePdfComponent } from './modals/detalle-pdf/detalle-pdf.component';
 import swall from 'sweetalert2';
+import { PagosReporteComponent } from './modals/pagos-reporte/pagos-reporte.component';
 
 @Component({
   templateUrl: './pagos.component.html',
@@ -81,6 +82,14 @@ export class PagosComponent implements OnInit {
     this.dialog.open(DetallePdfComponent, {
       width:'700px',
       data:fila
+      }).afterClosed().subscribe(valor =>{
+        this.listarAportaciones();
+    });
+  }
+
+  abrirDialogoReporte(){
+    this.dialog.open(PagosReporteComponent, {
+      width:'600px',
       }).afterClosed().subscribe(valor =>{
         this.listarAportaciones();
     });

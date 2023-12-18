@@ -65,8 +65,6 @@ export class CrearFamiliarComponent implements AfterViewInit , OnInit{
     this.paginator._intl.nextPageLabel = 'Siguiente';
     this.paginator._intl.previousPageLabel = 'Atras';
     this.dataSource.paginator = this.paginator;
-
-
   }
 
   aplicarFiltro(event: Event) {

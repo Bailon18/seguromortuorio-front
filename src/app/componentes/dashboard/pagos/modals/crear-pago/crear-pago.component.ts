@@ -102,7 +102,7 @@ export class CrearPagoComponent implements OnInit {
     }
 
     return null;
-}
+  }
 
 
   getFieldError(field: string): string | null {

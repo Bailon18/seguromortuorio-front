@@ -1,5 +1,5 @@
 
-<div id="cuerpoboleta"> <!-- style="border: 1px solid #2f4053; padding: 15px;" -->
+<div id="cuerpoboleta"> 
   <div class="clearfix">
     <div id="logo">
       <img src="assets/imagen/logo.png" alt="Logo de la Empresa">
@@ -15,14 +15,14 @@
     <main>
       <div id="details" class="clearfix">
         <div id="client">
-          <div class="to">BOLETA E.:</div>
+          <div class="to">REPORTE:</div>
           <h2 class="name">{{ pago.socio.nombre + ' ' + pago.socio.apellido }}</h2>
           <div class="address">{{ pago.socio.direccion + '-' +pago.socio.telefono }}</div>
           <div class="email"><a href="#">{{pago.socio.correoElectronico}}</a></div>
         </div>
         <div id="invoice">
           <h1>Reporte</h1>
-          <div class="date">Fecha de la BOLETA E.:  {{pago.fechaAportacion | date:'yyyy-MM-dd HH:mm'}}</div>
+          <div class="date">Fecha de REPORTE.:  {{pago.fechaAportacion | date:'yyyy-MM-dd HH:mm'}}</div>
           <div class="date">Metodo de pago: {{ pago.metodoPago }}</div>
           <div class="date">Tesorero: {{ pago.tesorero.nombreUsuario }}</div>
         </div>
@@ -75,7 +75,7 @@
   <br>
   <div class="download-button">
     <a href="#" class="download-link" (click)="descargarBoleta($event)">
-      <i class="fa fa-download"></i> Descargar Boleta
+      <i class="fa fa-download"></i> Descargar Reporte
     </a>
   </div>
 

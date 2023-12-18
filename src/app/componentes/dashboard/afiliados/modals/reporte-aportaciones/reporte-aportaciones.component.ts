@@ -99,13 +99,20 @@ export class ReporteAportacionesComponent implements OnInit {
       headStyles: { fillColor: [47, 64, 83] }
     });
   
-    const space = 3;
+    const space = 15;
     const startYText = 25 + data.length * 10 + space;
+  
+    autoTable(doc, {
+      head: [headers],
+      body: data,
+      startY: 25,
+      headStyles: { fillColor: [47, 64, 83] }
+    });
   
     const aportacionesAnio = this.costoTotal.toFixed(2);
   
     doc.setFontSize(11);
-    doc.text(`Aportaciones de ${this.formatDate(this.fechaInicio)} a ${this.formatDate(this.fechaFin)}: $ ${aportacionesAnio}`, 15, startYText + space);
+    doc.text(`Aportaciones de ${this.formatDate(this.fechaInicio)} a ${this.formatDate(this.fechaFin)}: $ ${aportacionesAnio}`, 15, startYText);
     doc.save(`Reporte-Aportaciones-${this.nombresocio}.pdf`);
   }
   
