@@ -47,6 +47,7 @@ export class PagosReporteComponent implements OnInit {
       fechafinal: ['', Validators.required],
       checktodos: [false],
       campoBusqueda: ['', Validators.required],
+      estadoPago: ['PAGADO', Validators.required],
       idSocio: [''],
     });
 
@@ -82,20 +83,18 @@ export class PagosReporteComponent implements OnInit {
   }
 
 
-  generatePDF(){
-
-    console.log("TOTAL ", this.aportaciones)
-
+  generatePDF() {
+    console.log("TOTAL ", this.aportaciones);
+  
     const doc = new jsPDF();
   
     doc.setFontSize(17);
-
     doc.text('Reporte de Aportaciones', 15, 15);
   
     const headers = ['Fecha de Pago', 'Socio', 'Método de Pago', 'Mes de Pago', 'Total Cuota'];
     const data = this.aportaciones.map(aportacion => [
       new Date(aportacion.fechaAportacion).toLocaleDateString(),
-      aportacion.socio.nombre + ' ' +aportacion.socio.apellido,
+      aportacion.socio.nombre + ' ' + aportacion.socio.apellido,
       aportacion.metodoPago,
       this.getMonthName(aportacion.fechaAportacion),
       '$.' + (aportacion.cuotasFinados + aportacion.otrasAportaciones).toFixed(2)
@@ -111,20 +110,23 @@ export class PagosReporteComponent implements OnInit {
     const space = 15;
     const startYText = 25 + data.length * 10 + space;
   
-    autoTable(doc, {
-      head: [headers],
-      body: data,
-      startY: 25,
-      headStyles: { fillColor: [47, 64, 83] }
-    });
-
     const aportacionesAnio = this.costoTotal.toFixed(2);
-
+  
+    const estadoPago = this.reportForm.get('estadoPago')?.value;
+    let textToShow = '';
+    if (estadoPago === 'PAGADO') {
+      textToShow = `Aportaciones Pagadas: $ ${aportacionesAnio}`;
+    } else if (estadoPago === 'PENDIENTE') {
+      textToShow = `Aportaciones Pendientes de Pago: $ ${aportacionesAnio} `;
+    } else {
+      textToShow = `Aportaciones: $ ${aportacionesAnio}`;
+    }
+  
     doc.setFontSize(11);
-    doc.text(`Aportaciones: $ ${aportacionesAnio}`, 15, startYText);
+    doc.text(textToShow, 15, startYText);
     doc.save(`Reporte-Aportaciones.pdf`);
   }
-
+  
   isValidField(field: string): boolean | null {
     return (
       this.reportForm.controls[field].errors &&
@@ -194,6 +196,7 @@ export class PagosReporteComponent implements OnInit {
     const campoBusqueda = this.reportForm.get('campoBusqueda')?.value;
     const fechaInicio = this.reportForm.get('fechainicio')?.value;
     const fechaFinal = this.reportForm.get('fechafinal')?.value;
+    const estadoPago = this.reportForm.get('estadoPago')?.value;
   
     if (campoBusqueda && fechaInicio && fechaFinal) {
       this.aportacionServicio.getAportaciones().subscribe((res: Aportacion[]) => {
@@ -203,41 +206,47 @@ export class PagosReporteComponent implements OnInit {
           return (
             aportacion.socio.id === parseInt(this.reportForm.get('idSocio')?.value) &&
             new Date(aportacion.fechaAportacion) >= fechaInicio &&
-            new Date(aportacion.fechaAportacion) <= fechaFinal
+            new Date(aportacion.fechaAportacion) <= fechaFinal &&
+            aportacion.estadoPago === estadoPago 
           );
         });
-
+  
+        // Cálculo de totales
         const sumaCuotasFinados = this.aportaciones.reduce((total, aportacion) => total + aportacion.cuotasFinados, 0);
         const sumaOtrasAportaciones = this.aportaciones.reduce((total, aportacion) => total + aportacion.otrasAportaciones, 0);
-
+  
         this.costoTotal = sumaCuotasFinados + sumaOtrasAportaciones;
-
-        this.dataSource = new MatTableDataSource(this.aportaciones);
-        this.dataSource.paginator = this.paginator;
+  
+        this.actualizarTabla(); // Función para actualizar la tabla de datos
       });
     } else if (fechaInicio && fechaFinal) {
       this.aportacionServicio.getAportaciones().subscribe((res: Aportacion[]) => {
- 
         this.aportaciones = res.filter(aportacion => {
           return (
             new Date(aportacion.fechaAportacion) >= fechaInicio &&
-            new Date(aportacion.fechaAportacion) <= fechaFinal
+            new Date(aportacion.fechaAportacion) <= fechaFinal &&
+            aportacion.estadoPago === estadoPago // Filtrar por Estado de Pago
           );
         });
-
+  
+        // Cálculo de totales
         const sumaCuotasFinados = this.aportaciones.reduce((total, aportacion) => total + aportacion.cuotasFinados, 0);
         const sumaOtrasAportaciones = this.aportaciones.reduce((total, aportacion) => total + aportacion.otrasAportaciones, 0);
-
+  
         this.costoTotal = sumaCuotasFinados + sumaOtrasAportaciones;
-
-        this.dataSource = new MatTableDataSource(this.aportaciones);
-        this.dataSource.paginator = this.paginator;
-
+  
+        this.actualizarTabla(); // Función para actualizar la tabla de datos
       });
     } else {
       this.listarAportaciones();
     }
   }
+  
+  actualizarTabla() {
+    this.dataSource = new MatTableDataSource(this.aportaciones);
+    this.dataSource.paginator = this.paginator;
+  }
+  
   
   listarAportaciones() {
     this.aportacionServicio.getAportaciones().subscribe((aportaciones: Aportacion[]) => {
