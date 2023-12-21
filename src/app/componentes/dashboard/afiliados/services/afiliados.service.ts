@@ -70,4 +70,8 @@ export class AfiliadosService {
     const url = `${baseUrl}/apifm/aportaciones/filtro/${socioId}?startDate=${startDate}&endDate=${endDate}`;
     return this.http.get<Aportacion[]>(url);
   }
+
+  cambiarEstado(id: number, estado: boolean): Observable<any> {
+    return this.http.post(`${baseUrl}/apifm/socios/cambiarEstado/${id}/${estado}`, {});
+  }
 }

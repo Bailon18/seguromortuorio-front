@@ -9,6 +9,7 @@ import { CrearFamiliarComponent } from './modals/crear-familiar/crear-familiar.c
 import { ReporteAportacionesComponent } from './modals/reporte-aportaciones/reporte-aportaciones.component';
 import jsPDF from 'jspdf';
 import autoTable, { Styles } from 'jspdf-autotable'; 
+import swall from 'sweetalert2';
 
 
 @Component({
@@ -64,6 +65,24 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
 
   mostrarInactivos(){
 
+    if(!this.estadoFiltro){
+
+      this.servicioAfiliacion.getAfiliaciones().subscribe(
+        {next: res => {
+          let filtrado = res.filter(u => u.activo==false)
+          this.dataSource = new MatTableDataSource(filtrado)
+          this.dataSource.paginator = this.paginator;
+          },
+          error: error => {
+            console.log("Ocurrio un error en la carga")
+          }
+        }
+      )
+        
+      }else{
+        this.listarAfiliaciones();
+        
+      }
   }
 
   abrirDialogoFamiliar(fila: any){
@@ -108,7 +127,37 @@ export class AfiliadosComponent implements AfterViewInit , OnInit {
   }
 
   bloquearAfiliado(fila: any){
+    const esBloqueo = !fila.activo;
+    const accion = !esBloqueo ? 'bloquear' : 'habilitar';
+    const pregunta = `¿Estás seguro de ${accion} a <strong>${fila.nombre}</strong>?`;
+    const mensajeBoton = `Sí, ${accion}!`;
+    const mensajeConfirmacion = `Socio ${accion}do con éxito!`;
 
+    swall.fire({
+      html: pregunta,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0275d8',
+      cancelButtonColor: '#9c9c9c',
+      confirmButtonText: mensajeBoton,
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.servicioAfiliacion.cambiarEstado(fila.id, esBloqueo).subscribe({
+          next: (res) => {
+            this.listarAfiliaciones();
+          },
+          error: (error) => {
+            console.error('Ocurrió un error', error);
+          },
+        });
+
+        swall.fire({
+          icon: 'success',
+          html: mensajeConfirmacion,
+        });
+      }
+    });
   }
 
   verReporteSocios(){
