@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
     private servicioSession: SessionService
   ) {
     this.formulario = this.fb.group({
-      usuario: ['admin@gmail.com', Validators.required],
-      password: ['admin', Validators.required],
+      usuario: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         this.tokenService.setToken(usuario.contrasena!);
         this.tokenService.setUserName(usuario.nombreUsuario!);
         this.tokenService.setAuthorities([usuario.tipoUsuario]!);
-       
+
         swall.fire({
           html: `<strong>${usuario.nombreUsuario.toLowerCase()}</strong> Iniciaste sesión como: <strong>${usuario.tipoUsuario.toUpperCase()}</strong>`,
           icon: 'success',

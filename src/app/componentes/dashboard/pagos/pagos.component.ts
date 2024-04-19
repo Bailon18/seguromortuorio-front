@@ -69,7 +69,7 @@ export class PagosComponent implements OnInit {
     return this.servicioAportacion.getAportaciones().subscribe({
       next: res => {
         this.dataSource = new MatTableDataSource(res);
-        this.dataSourceCopy = res; // Copiar la fuente de datos original
+        this.dataSourceCopy = res; 
         this.dataSource.paginator = this.paginator;
       },
       error: error => {

@@ -156,7 +156,17 @@ export class CrearPagoComponent implements OnInit {
       socio.id = this.aportacionForm.get('idSocio')?.value;
 
       let usuario: Usuario = new Usuario()
-      usuario.id = 2
+
+
+      var usuarioString = sessionStorage.getItem('UsuarioLogeado');
+
+      console.log("USU: "+ usuarioString)
+      if (usuarioString !== null) {
+          var usuariostringResp = JSON.parse(usuarioString);
+          usuario.id = usuariostringResp.id;
+      } 
+
+      console.log("ID: ", usuario.id)
    
       const cuotasFinados = parseFloat(this.aportacionForm.get('cuotasFinados')?.value.replace('$', '').replace(',', ''));
       const otrasAportaciones = parseFloat(this.aportacionForm.get('otrasAportaciones')?.value.replace('$', '').replace(',', ''));

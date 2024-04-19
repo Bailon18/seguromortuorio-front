@@ -25,7 +25,7 @@
                                     <button class="btn" style="margin-top: -5px; background-color: rgb(187, 121, 0); color:white" (click)="abrirDialogoReporte()">
                                         <i class="fas fa-file-pdf"></i> Generar Reporte Personalizado
                                     </button>
-                                </div>                                
+                                </div>
                             </div>
                         </div>
                         <div class="col-6 text-end">
@@ -44,35 +44,35 @@
                                 <th mat-header-cell *matHeaderCellDef> Socio </th>
                                 <td mat-cell *matCellDef="let fila"> {{fila.socio.nombre}} </td>
                             </ng-container>
-                        
+
                             <ng-container matColumnDef="FECHA PAGO">
                                 <th mat-header-cell *matHeaderCellDef> Fecha de pago </th>
-                                <td mat-cell *matCellDef="let fila"> {{fila.fechaAportacion | date:'yyyy-MM-dd HH:mm'}} </td>
+                                <td mat-cell *matCellDef="let fila"> {{fila.fechaAportacion | date:'yyyy-MM-dd'}} </td>
                             </ng-container>
-                              
+
                             <ng-container matColumnDef="CUOTA">
                                 <th mat-header-cell *matHeaderCellDef> Cuota </th>
                                 <td mat-cell *matCellDef="let fila"> {{ fila.cuotas | currency: 'USD':'symbol':'1.2-2' }} </td>
                             </ng-container>
-                            
+
                             <ng-container matColumnDef="CUOTA FINADO">
                                 <th mat-header-cell *matHeaderCellDef> Cuota Finado </th>
                                 <td mat-cell *matCellDef="let fila"> {{ fila.cuotasFinados | currency: 'USD':true:'1.2-2' }} </td>
                             </ng-container>
-                            
+
                             <ng-container matColumnDef="OTRAS APORTACIONES">
                                 <th mat-header-cell *matHeaderCellDef> Otras Aportaciones </th>
                                 <td mat-cell *matCellDef="let fila"> {{ fila.otrasAportaciones | currency: 'USD':true:'1.2-2' }} </td>
                             </ng-container>
-                            
-                            
+
+
 
                             <ng-container matColumnDef="ESTADO DE PAGO">
                                 <th mat-header-cell *matHeaderCellDef> Estado de pago </th>
                                 <td mat-cell *matCellDef="let fila"> {{fila.estadoPago}} </td>
                             </ng-container>
-                        
- 
+
+
                             <ng-container matColumnDef="ACCIONES">
                                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                                 <td mat-cell *matCellDef="let fila">
@@ -82,11 +82,11 @@
                                     </a>
                                     <a class="pointer iconosAccion" matTooltip="Ver Reporte de aportaciones" (click)="abrirDialogoPdfDettale(fila)">
                                         <mat-icon class="primary-icon">picture_as_pdf</mat-icon>
-                                      </a>                                      
+                                      </a>
                                 </td>
-                                
+
                             </ng-container>
-                        
+
                             <tr mat-header-row *matHeaderRowDef="columnas"></tr>
                             <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
                         </table>
