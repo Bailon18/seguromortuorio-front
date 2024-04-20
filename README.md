@@ -22,7 +22,7 @@ Seguro Mortuorio es una solución integral para la administración eficiente de 
 ## Tecnologías Utilizadas
 
 - 🅰️ Angular: Desarrollo del frontend de la aplicación.
-- ☁️ Spring Boot: API RESTful utilizada como backend para proporcionar datos y lógica de negocio.
+- ☁️ [Spring Boot](https://github.com/Bailon18/seguromortuorio-back): API RESTful utilizada como backend para proporcionar datos y lógica de negocio.
 - 🗃️ Base de Datos: MySQL.
 
 ## Configuración
