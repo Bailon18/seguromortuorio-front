@@ -23,7 +23,7 @@ Seguro Mortuorio es una solución integral para la administración eficiente de 
 
 - Angular: Desarrollo del frontend de la aplicación.
 - Spring Boot: API RESTful utilizada como backend para proporcionar datos y lógica de negocio.
-- Base de Datos: [Indica aquí qué base de datos estás utilizando, por ejemplo, MySQL, PostgreSQL, etc.].
+- Base de Datos: [MySQL].
 
 ## Configuración
 
